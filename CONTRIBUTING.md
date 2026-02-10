@@ -6,11 +6,11 @@ Thanks for your interest in making AI agent infrastructure more secure! 🛡️
 
 ### Reporting Bugs
 
-Open an issue using the [bug report template](https://github.com/openclaw/clawshield/issues/new?template=bug_report.md).
+Open an issue using the [bug report template](https://github.com/lennystepn-hue/clawshield/issues/new?template=bug_report.md).
 
 ### Suggesting Features
 
-Open an issue using the [feature request template](https://github.com/openclaw/clawshield/issues/new?template=feature_request.md).
+Open an issue using the [feature request template](https://github.com/lennystepn-hue/clawshield/issues/new?template=feature_request.md).
 
 ### Submitting Code
 

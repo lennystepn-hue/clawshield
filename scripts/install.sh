@@ -2,9 +2,9 @@
 set -euo pipefail
 
 # ClawShield Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/openclaw/clawshield/main/scripts/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/lennystepn-hue/clawshield/main/scripts/install.sh | bash
 
-REPO="openclaw/clawshield"
+REPO="lennystepn-hue/clawshield"
 INSTALL_DIR="/usr/local/bin"
 BINARY_NAME="clawshield"
 
