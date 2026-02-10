@@ -434,5 +434,5 @@ MIT — see [LICENSE](LICENSE) for details.
 ---
 
 <p align="center">
-  Built with 🛡️ by the <a href="https://github.com/openclaw/openclaw">OpenClaw</a> community
+  Built with 🛡️ by <a href="https://x.com/lenny_enderle">Lenny Enderle</a> · Powered by <a href="https://github.com/openclaw/openclaw">OpenClaw</a>
 </p>
