@@ -125,6 +125,63 @@ var descriptions = map[string]richDescription{
 		Fix:     "Sends SIGCHLD to parent processes, then SIGKILL if zombies persist.",
 		Risk:    "Killing parent processes may restart services. Usually harmless.",
 	},
+	// macOS checks
+	"macOS Firewall": {
+		Problem: "The macOS Application Firewall is disabled. Incoming connections are not filtered.",
+		Fix:     "Enables the built-in application firewall via socketfilterfw.",
+		Risk:    "None. Allows all outgoing; only filters unsigned incoming connections.",
+	},
+	"Stealth Mode": {
+		Problem: "Stealth mode is off. Your Mac responds to network probes (ping, port scans).",
+		Fix:     "Enables stealth mode so the system ignores unsolicited probes.",
+		Risk:    "None for normal use. Some network diagnostics may not work.",
+	},
+	"Gatekeeper": {
+		Problem: "Gatekeeper is disabled. Unsigned/unnotarized apps can run without warning.",
+		Fix:     "Re-enables Gatekeeper to block unsigned applications.",
+		Risk:    "None. You can still right-click > Open to run unsigned apps when needed.",
+	},
+	"Remote Login (SSH)": {
+		Problem: "Remote Login (SSH) is enabled. Anyone who knows your IP can attempt to connect.",
+		Fix:     "Disables Remote Login via systemsetup.",
+		Risk:    "You won't be able to SSH into this Mac remotely. Re-enable if needed.",
+	},
+	"FileVault Encryption": {
+		Problem: "Disk encryption is off. Anyone with physical access can read your data.",
+		Fix:     "Enable FileVault in System Settings > Privacy & Security. Requires restart.",
+		Risk:    "Slight performance impact. Keep your recovery key safe!",
+	},
+	"macOS Updates": {
+		Problem: "macOS software updates are available, potentially including security patches.",
+		Fix:     "Installs all available updates via softwareupdate.",
+		Risk:    "May require restart. Large updates can take significant time.",
+	},
+	// Windows checks
+	"Windows Firewall": {
+		Problem: "Windows Firewall is partially or fully disabled. Network traffic is unfiltered.",
+		Fix:     "Enables all firewall profiles (Domain, Private, Public).",
+		Risk:    "None for normal use. Some misconfigured apps may stop working.",
+	},
+	"Guest Account": {
+		Problem: "The Guest account is enabled. Anyone can log in without credentials.",
+		Fix:     "Disables the Guest account.",
+		Risk:    "None. Guest accounts are a security liability.",
+	},
+	"UAC Enabled": {
+		Problem: "User Account Control is disabled. All programs run with full admin privileges.",
+		Fix:     "Enables UAC via registry. Requires restart to take effect.",
+		Risk:    "Programs will prompt for elevation. This is normal and expected.",
+	},
+	"RDP Status": {
+		Problem: "Remote Desktop is enabled. Attackers can attempt RDP brute-force attacks.",
+		Fix:     "Disables Remote Desktop via registry.",
+		Risk:    "You won't be able to RDP into this machine. Re-enable if needed.",
+	},
+	"Antivirus (Defender)": {
+		Problem: "Windows Defender real-time protection is disabled. Malware can execute freely.",
+		Fix:     "Re-enables real-time monitoring via PowerShell.",
+		Risk:    "None. This is the standard protection every Windows machine should have.",
+	},
 }
 
 func AutoHarden() {

@@ -11,7 +11,7 @@ import (
 	"github.com/clawshield/clawshield/internal/skills"
 )
 
-const version = "0.1.0"
+const version = "0.4.0"
 
 const banner = `
     ________               _____ __    _      __    __

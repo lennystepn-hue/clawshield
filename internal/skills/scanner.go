@@ -60,7 +60,7 @@ var dangerousPatterns = []struct {
 	{regexp.MustCompile(`cat\s+/etc/shadow`), "critical", "Reading password hashes"},
 	{regexp.MustCompile(`cat.*\.ssh/(id_rsa|id_ed25519|authorized_keys)`), "critical", "Reading SSH keys"},
 	{regexp.MustCompile(`cat.*\.(env|secret|token|key|password|passwd)`), "high", "Reading potential secrets file"},
-	{regexp.MustCompile(`ANTHROPIC_API_KEY|OPENAI_API_KEY|API_SECRET`), "high", "Hardcoded API key reference"},
+	{regexp.MustCompile(`(ANTHROPIC_API_KEY|OPENAI_API_KEY|API_SECRET)\s*=\s*["'][a-zA-Z0-9_-]{10,}`), "high", "Hardcoded API key with value"},
 
 	// Persistence
 	{regexp.MustCompile(`crontab\s+-[el]`), "medium", "Crontab modification — check for persistence"},

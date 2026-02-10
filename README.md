@@ -5,7 +5,7 @@
 <h1 align="center">ClawShield 🛡️</h1>
 
 <p align="center">
-  <strong>Security Layer for AI Agents — One binary. Zero config. 50 checks.</strong>
+  <strong>Security Layer for AI Agents — One binary. Zero config. Linux (50) · macOS (20) · Windows (12) checks.</strong>
 </p>
 
 <p align="center">
@@ -43,9 +43,17 @@ That's it. **Full security report in under 5 seconds.**
 
 ---
 
-## 🔍 Security Scanner — 50 Checks
+## 🔍 Security Scanner — Multi-Platform
 
-ClawShield runs **50 automated security checks** across 5 categories:
+ClawShield runs automated security checks across 5 categories:
+
+| Platform | Checks | Categories |
+|:---------|:-------|:-----------|
+| **Linux** | 50 | Network, Access, System, Files, Agent |
+| **macOS** | 20 | Network, Access, System, Files, Agent |
+| **Windows** | 12 | Network, Access, System, Agent |
+
+### Linux — 50 Checks
 
 ### Network (7 checks)
 | Check | What it does |
@@ -117,6 +125,48 @@ ClawShield runs **50 automated security checks** across 5 categories:
 | Memory Limit | Verifies cgroup memory constraints |
 | Privileged Containers | Detects Docker containers running privileged |
 
+### macOS — 20 Checks
+
+| Category | Check | What it does |
+|:---------|:------|:-------------|
+| Network | macOS Firewall | Verifies Application Firewall is enabled |
+| Network | Stealth Mode | Checks if system ignores network probes |
+| Access | SSH Password Auth | Flags password-based SSH login |
+| Access | SSH Root Login | Detects unrestricted root SSH access |
+| Access | Gatekeeper | Verifies Gatekeeper blocks unsigned apps |
+| Access | Screen Lock | Checks password-on-wake setting |
+| Access | Remote Login (SSH) | Checks if SSH is enabled via systemsetup |
+| System | FileVault Encryption | Verifies disk encryption |
+| System | System Integrity Protection | Checks SIP status |
+| System | macOS Updates | Checks for pending software updates |
+| System | Disk Usage | Warns at 75%+, fails at 90%+ |
+| System | RAM Usage | Monitors memory via vm_stat |
+| System | CPU Load | Detects overloaded systems |
+| System | XProtect / MRT | Verifies malware protection tools exist |
+| Files | World-Writable Dirs (/tmp) | Finds insecure dirs in /tmp |
+| Files | .env File Exposure | Finds exposed environment files |
+| Agent | API Keys in Env | Scans environment for leaked secrets |
+| Agent | Docker Socket | Checks Docker socket permissions |
+| Agent | OpenClaw Config Perms | Validates config file permissions |
+| Agent | Workspace Permissions | Validates workspace directory permissions |
+
+### Windows — 12 Checks
+
+| Category | Check | What it does |
+|:---------|:------|:-------------|
+| Network | Windows Firewall | Verifies all firewall profiles enabled |
+| Network | Open Ports | Detects dangerous listening ports |
+| Access | Password Policy | Checks minimum password length |
+| Access | Guest Account | Verifies Guest account is disabled |
+| Access | UAC Enabled | Checks User Account Control status |
+| Access | RDP Status | Detects if Remote Desktop is enabled |
+| System | Windows Updates | Checks last update installation date |
+| System | Disk Usage | Monitors C: drive usage |
+| System | RAM Usage | Flags high memory consumption |
+| System | Antivirus (Defender) | Verifies real-time protection is active |
+| Agent | API Keys in Env | Scans environment for leaked secrets |
+| Agent | Docker Socket | Checks Docker named pipe accessibility |
+
 ---
 
 ## 📊 Security Score
@@ -148,7 +198,7 @@ $ clawshield scan
   / /   / / __ `/ | /| / /\__ \/ __ \/ / _ \/ / __  /
  / /___/ / /_/ /| |/ |/ /___/ / / / / /  __/ / /_/ /
  \____/_/\__,_/ |__/|__//____/_/ /_/_/\___/_/\__,_/
-                                                v0.1.0
+                                                v0.4.0
   🛡️  Security Layer for AI Agents
 
   🔍 Running security scan...
@@ -342,7 +392,8 @@ sudo mv clawshield /usr/local/bin/
 
 - [x] **v0.1** — Core Scanner & Hardener (50 checks)
 - [x] **v0.3** — Agent Behavior Analysis, Live Monitor, Skill Scanner
-- [ ] **v0.4** — Multi-host dashboard, threat intelligence feed
+- [x] **v0.4** — Full macOS support (20 checks), Windows support (12 checks), cross-platform hardener
+- [ ] **v0.5** — Multi-host dashboard, threat intelligence feed
 - [ ] **v1.0** — SaaS dashboard, team management, compliance reports
 
 ---

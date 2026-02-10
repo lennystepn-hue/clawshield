@@ -37,6 +37,8 @@ func RunFullScan() ScanReport {
 		report.Checks = runLinuxChecks()
 	case "darwin":
 		report.Checks = runDarwinChecks()
+	case "windows":
+		report.Checks = runWindowsChecks()
 	default:
 		report.Checks = runGenericChecks()
 	}
@@ -282,7 +284,7 @@ func runLinuxChecks() []CheckResult {
 	if f2bActive {
 		checks = append(checks, CheckResult{Name: "Fail2Ban", Category: "Access", Status: "pass", Detail: "Fail2Ban is active"})
 	} else {
-		checks = append(checks, CheckResult{Name: "Fail2Ban", Category: "Access", Status: "fail", Detail: "Fail2Ban is not active", Fix: "apt-get install -y fail2ban && systemctl enable --now fail2ban", FixCmd: "apt-get install -y fail2ban && systemctl enable --now fail2ban", Risk: "low"})
+		checks = append(checks, CheckResult{Name: "Fail2Ban", Category: "Access", Status: "fail", Detail: "Fail2Ban is not active", Fix: "apt-get install -y fail2ban && systemctl enable --now fail2ban", FixCmd: "dpkg -s fail2ban >/dev/null 2>&1 || apt-get install -y fail2ban && systemctl enable --now fail2ban", Risk: "low"})
 	}
 
 	// 11. SSH Port
@@ -343,7 +345,7 @@ func runLinuxChecks() []CheckResult {
 	if hasPolicy {
 		checks = append(checks, CheckResult{Name: "Password Policy", Category: "Access", Status: "pass", Detail: "PAM password policy configured"})
 	} else {
-		checks = append(checks, CheckResult{Name: "Password Policy", Category: "Access", Status: "warn", Detail: "No PAM password policy (pam_pwquality/minlen) found", Fix: "apt-get install -y libpam-pwquality && echo 'password requisite pam_pwquality.so retry=3 minlen=12' >> /etc/pam.d/common-password", FixCmd: "apt-get install -y libpam-pwquality && grep -q pam_pwquality /etc/pam.d/common-password || echo 'password requisite pam_pwquality.so retry=3 minlen=12' >> /etc/pam.d/common-password", Risk: "medium"})
+		checks = append(checks, CheckResult{Name: "Password Policy", Category: "Access", Status: "warn", Detail: "No PAM password policy (pam_pwquality/minlen) found", Fix: "apt-get install -y libpam-pwquality && echo 'password requisite pam_pwquality.so retry=3 minlen=12' >> /etc/pam.d/common-password", FixCmd: "dpkg -s libpam-pwquality >/dev/null 2>&1 || apt-get install -y libpam-pwquality; grep -q pam_pwquality /etc/pam.d/common-password || echo 'password requisite pam_pwquality.so retry=3 minlen=12' >> /etc/pam.d/common-password", Risk: "medium"})
 	}
 
 	// 15. Inactive Users
@@ -591,7 +593,7 @@ func runLinuxChecks() []CheckResult {
 		if aaActive {
 			checks = append(checks, CheckResult{Name: "AppArmor", Category: "System", Status: "pass", Detail: "AppArmor is active"})
 		} else {
-			checks = append(checks, CheckResult{Name: "AppArmor", Category: "System", Status: "warn", Detail: "AppArmor is not active or not installed", Fix: "apt-get install -y apparmor && systemctl enable --now apparmor", FixCmd: "apt-get install -y apparmor apparmor-utils && systemctl enable --now apparmor", Risk: "low"})
+			checks = append(checks, CheckResult{Name: "AppArmor", Category: "System", Status: "warn", Detail: "AppArmor is not active or not installed", Fix: "apt-get install -y apparmor && systemctl enable --now apparmor", FixCmd: "dpkg -s apparmor >/dev/null 2>&1 || apt-get install -y apparmor apparmor-utils && systemctl enable --now apparmor", Risk: "low"})
 		}
 	}
 
@@ -812,7 +814,7 @@ func runLinuxChecks() []CheckResult {
 		if lrOk {
 			checks = append(checks, CheckResult{Name: "Log Rotation", Category: "Files", Status: "pass", Detail: "Logrotate is configured"})
 		} else {
-			checks = append(checks, CheckResult{Name: "Log Rotation", Category: "Files", Status: "warn", Detail: "Logrotate not found or inactive", Fix: "apt-get install -y logrotate && systemctl enable --now logrotate.timer", FixCmd: "apt-get install -y logrotate && systemctl enable --now logrotate.timer", Risk: "low"})
+			checks = append(checks, CheckResult{Name: "Log Rotation", Category: "Files", Status: "warn", Detail: "Logrotate not found or inactive", Fix: "apt-get install -y logrotate && systemctl enable --now logrotate.timer", FixCmd: "dpkg -s logrotate >/dev/null 2>&1 || apt-get install -y logrotate && systemctl enable --now logrotate.timer", Risk: "low"})
 		}
 	}
 
@@ -1038,33 +1040,553 @@ func runLinuxChecks() []CheckResult {
 func runDarwinChecks() []CheckResult {
 	var checks []CheckResult
 
-	// macOS Firewall
-	out, err := exec.Command("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate").Output()
-	if err == nil {
-		if strings.Contains(string(out), "enabled") {
-			checks = append(checks, CheckResult{Name: "macOS Firewall", Category: "Network", Status: "pass", Detail: "Enabled"})
-		} else {
-			checks = append(checks, CheckResult{Name: "macOS Firewall", Category: "Network", Status: "fail", Detail: "Disabled", Fix: "Enable in System Preferences > Security"})
+	// Read SSH config once
+	sshConf := readFile("/etc/ssh/sshd_config")
+	configDFiles, _ := os.ReadDir("/etc/ssh/sshd_config.d")
+	for _, f := range configDFiles {
+		if strings.HasSuffix(f.Name(), ".conf") {
+			sshConf += "\n" + readFile("/etc/ssh/sshd_config.d/"+f.Name())
 		}
 	}
 
-	// FileVault
-	fvOut, err := exec.Command("fdesetup", "status").Output()
-	if err == nil {
-		if strings.Contains(string(fvOut), "On") {
-			checks = append(checks, CheckResult{Name: "FileVault Encryption", Category: "System", Status: "pass", Detail: "Enabled"})
+	// ═══════════════════════════════════════
+	// NETWORK (2)
+	// ═══════════════════════════════════════
+
+	// 1. macOS Firewall
+	fwOut := run("/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate 2>/dev/null")
+	if strings.Contains(fwOut, "enabled") {
+		checks = append(checks, CheckResult{Name: "macOS Firewall", Category: "Network", Status: "pass", Detail: "Application firewall is enabled"})
+	} else {
+		checks = append(checks, CheckResult{Name: "macOS Firewall", Category: "Network", Status: "fail", Detail: "Application firewall is disabled", Fix: "sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on", FixCmd: "/usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on", Risk: "low"})
+	}
+
+	// 2. Stealth Mode
+	stealthOut := run("/usr/libexec/ApplicationFirewall/socketfilterfw --getstealthmode 2>/dev/null")
+	if strings.Contains(stealthOut, "enabled") {
+		checks = append(checks, CheckResult{Name: "Stealth Mode", Category: "Network", Status: "pass", Detail: "Stealth mode is enabled"})
+	} else {
+		checks = append(checks, CheckResult{Name: "Stealth Mode", Category: "Network", Status: "warn", Detail: "Stealth mode is disabled — system responds to probes", Fix: "sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on", FixCmd: "/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on", Risk: "low"})
+	}
+
+	// ═══════════════════════════════════════
+	// ACCESS (4)
+	// ═══════════════════════════════════════
+
+	// 3. SSH Password Auth
+	if sshConf == "" {
+		checks = append(checks, CheckResult{Name: "SSH Password Auth", Category: "Access", Status: "warn", Detail: "SSH config not readable"})
+	} else if matched, _ := regexp.MatchString(`(?m)^\s*PasswordAuthentication\s+yes`, sshConf); matched {
+		checks = append(checks, CheckResult{Name: "SSH Password Auth", Category: "Access", Status: "warn", Detail: "Password authentication enabled", Fix: "Set PasswordAuthentication no in /etc/ssh/sshd_config", FixCmd: "sed -i '' 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && launchctl stop com.openssh.sshd 2>/dev/null; true", Risk: "medium"})
+	} else {
+		checks = append(checks, CheckResult{Name: "SSH Password Auth", Category: "Access", Status: "pass", Detail: "Password auth disabled or defaulting to no"})
+	}
+
+	// 4. SSH Root Login
+	if sshConf == "" {
+		checks = append(checks, CheckResult{Name: "SSH Root Login", Category: "Access", Status: "warn", Detail: "SSH config not readable"})
+	} else if matched, _ := regexp.MatchString(`(?m)^\s*PermitRootLogin\s+yes`, sshConf); matched {
+		checks = append(checks, CheckResult{Name: "SSH Root Login", Category: "Access", Status: "fail", Detail: "Root login is permitted", Fix: "Set PermitRootLogin no in /etc/ssh/sshd_config", FixCmd: "sed -i '' 's/^#*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config && launchctl stop com.openssh.sshd 2>/dev/null; true", Risk: "medium"})
+	} else {
+		checks = append(checks, CheckResult{Name: "SSH Root Login", Category: "Access", Status: "pass", Detail: "Root login disabled or restricted"})
+	}
+
+	// 5. Gatekeeper
+	gkOut := run("spctl --status 2>/dev/null")
+	if strings.Contains(gkOut, "assessments enabled") {
+		checks = append(checks, CheckResult{Name: "Gatekeeper", Category: "Access", Status: "pass", Detail: "Gatekeeper is enabled"})
+	} else {
+		checks = append(checks, CheckResult{Name: "Gatekeeper", Category: "Access", Status: "fail", Detail: "Gatekeeper is disabled — unsigned apps can run freely", Fix: "sudo spctl --master-enable", FixCmd: "spctl --master-enable", Risk: "low"})
+	}
+
+	// 6. Screen Lock
+	screenLockDelay := run("defaults -currentHost read com.apple.screensaver idleTime 2>/dev/null")
+	askForPw := run("defaults read com.apple.screensaver askForPassword 2>/dev/null")
+	if askForPw == "1" {
+		checks = append(checks, CheckResult{Name: "Screen Lock", Category: "Access", Status: "pass", Detail: fmt.Sprintf("Screen lock requires password (idle: %ss)", screenLockDelay)})
+	} else {
+		checks = append(checks, CheckResult{Name: "Screen Lock", Category: "Access", Status: "warn", Detail: "Screen lock does not require password on wake"})
+	}
+
+	// ═══════════════════════════════════════
+	// SYSTEM (7)
+	// ═══════════════════════════════════════
+
+	// 7. FileVault Encryption
+	fvOut := run("fdesetup status 2>/dev/null")
+	if strings.Contains(fvOut, "On") {
+		checks = append(checks, CheckResult{Name: "FileVault Encryption", Category: "System", Status: "pass", Detail: "FileVault is enabled"})
+	} else {
+		checks = append(checks, CheckResult{Name: "FileVault Encryption", Category: "System", Status: "fail", Detail: "Disk is not encrypted", Fix: "Enable FileVault in System Settings > Privacy & Security", FixCmd: "", Risk: "high"})
+	}
+
+	// 8. System Integrity Protection
+	sipOut := run("csrutil status 2>/dev/null")
+	if strings.Contains(sipOut, "enabled") {
+		checks = append(checks, CheckResult{Name: "System Integrity Protection", Category: "System", Status: "pass", Detail: "SIP is enabled"})
+	} else {
+		checks = append(checks, CheckResult{Name: "System Integrity Protection", Category: "System", Status: "fail", Detail: "SIP is disabled — system is vulnerable"})
+	}
+
+	// 9. macOS Updates
+	updOut := run("softwareupdate -l 2>&1")
+	if strings.Contains(updOut, "No new software available") {
+		checks = append(checks, CheckResult{Name: "macOS Updates", Category: "System", Status: "pass", Detail: "System is up to date"})
+	} else if strings.Contains(updOut, "*") {
+		lines := strings.Split(updOut, "\n")
+		count := 0
+		for _, l := range lines {
+			if strings.HasPrefix(strings.TrimSpace(l), "*") {
+				count++
+			}
+		}
+		checks = append(checks, CheckResult{Name: "macOS Updates", Category: "System", Status: "warn", Detail: fmt.Sprintf("%d update(s) available", count), Fix: "softwareupdate -ia", FixCmd: "softwareupdate -ia --verbose", Risk: "medium"})
+	} else {
+		checks = append(checks, CheckResult{Name: "macOS Updates", Category: "System", Status: "pass", Detail: "No pending updates"})
+	}
+
+	// 10. Disk Usage
+	df := run("df -h / | tail -1")
+	diskPct := 0
+	if re := regexp.MustCompile(`(\d+)%`); true {
+		if m := re.FindStringSubmatch(df); m != nil {
+			diskPct, _ = strconv.Atoi(m[1])
+		}
+	}
+	diskStatus := "pass"
+	if diskPct > 90 {
+		diskStatus = "fail"
+	} else if diskPct > 75 {
+		diskStatus = "warn"
+	}
+	checks = append(checks, CheckResult{Name: "Disk Usage", Category: "System", Status: diskStatus, Detail: fmt.Sprintf("Root partition %d%% used", diskPct)})
+
+	// 11. RAM Usage
+	{
+		// macOS: use vm_stat or sysctl
+		memTotal := run("sysctl -n hw.memsize 2>/dev/null")
+		pageSize := run("sysctl -n hw.pagesize 2>/dev/null")
+		vmStat := run("vm_stat 2>/dev/null")
+		total, _ := strconv.ParseInt(memTotal, 10, 64)
+		pSize, _ := strconv.ParseInt(pageSize, 10, 64)
+		if pSize == 0 {
+			pSize = 4096
+		}
+		// Parse active + wired from vm_stat
+		var active, wired int64
+		for _, line := range strings.Split(vmStat, "\n") {
+			if strings.Contains(line, "Pages active") {
+				re := regexp.MustCompile(`(\d+)`)
+				if m := re.FindString(line); m != "" {
+					v, _ := strconv.ParseInt(m, 10, 64)
+					active = v * pSize
+				}
+			}
+			if strings.Contains(line, "Pages wired") {
+				re := regexp.MustCompile(`(\d+)`)
+				if m := re.FindString(line); m != "" {
+					v, _ := strconv.ParseInt(m, 10, 64)
+					wired = v * pSize
+				}
+			}
+		}
+		used := active + wired
+		if total > 0 {
+			pct := int((used * 100) / total)
+			st := "pass"
+			if pct > 85 {
+				st = "warn"
+			}
+			checks = append(checks, CheckResult{Name: "RAM Usage", Category: "System", Status: st, Detail: fmt.Sprintf("%d%% used (%dMB / %dMB)", pct, used/1024/1024, total/1024/1024)})
 		} else {
-			checks = append(checks, CheckResult{Name: "FileVault Encryption", Category: "System", Status: "fail", Detail: "Disk not encrypted", Fix: "Enable FileVault in System Preferences > Security"})
+			checks = append(checks, CheckResult{Name: "RAM Usage", Category: "System", Status: "pass", Detail: "Memory info not available"})
 		}
 	}
 
-	// SIP
-	sipOut, err := exec.Command("csrutil", "status").Output()
-	if err == nil {
-		if strings.Contains(string(sipOut), "enabled") {
-			checks = append(checks, CheckResult{Name: "System Integrity Protection", Category: "System", Status: "pass", Detail: "Enabled"})
+	// 12. CPU Load
+	{
+		loadAvg := run("sysctl -n vm.loadavg 2>/dev/null")
+		// Format: { 1.23 4.56 7.89 }
+		loadAvg = strings.Trim(loadAvg, "{ }")
+		numCPU := runtime.NumCPU()
+		load1m := 0.0
+		if parts := strings.Fields(loadAvg); len(parts) > 0 {
+			load1m, _ = strconv.ParseFloat(parts[0], 64)
+		}
+		st := "pass"
+		if load1m > float64(numCPU) {
+			st = "warn"
+		}
+		checks = append(checks, CheckResult{Name: "CPU Load", Category: "System", Status: st, Detail: fmt.Sprintf("Load avg %.2f (%d cores)", load1m, numCPU)})
+	}
+
+	// 13. XProtect / MRT
+	{
+		xpVersion := run("system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A1 'XProtect' | tail -1")
+		mrtExists := fileExists("/Library/Apple/System/Library/CoreServices/MRT.app") || fileExists("/System/Library/CoreServices/MRT.app")
+		xpExists := fileExists("/Library/Apple/System/Library/CoreServices/XProtect.app") || fileExists("/System/Library/CoreServices/XProtect.bundle")
+		if xpExists && mrtExists {
+			detail := "XProtect and MRT present"
+			if xpVersion != "" {
+				detail += " (" + strings.TrimSpace(xpVersion) + ")"
+			}
+			checks = append(checks, CheckResult{Name: "XProtect / MRT", Category: "System", Status: "pass", Detail: detail})
+		} else if xpExists {
+			checks = append(checks, CheckResult{Name: "XProtect / MRT", Category: "System", Status: "warn", Detail: "XProtect found but MRT not detected"})
 		} else {
-			checks = append(checks, CheckResult{Name: "System Integrity Protection", Category: "System", Status: "fail", Detail: "Disabled — system is vulnerable"})
+			checks = append(checks, CheckResult{Name: "XProtect / MRT", Category: "System", Status: "warn", Detail: "XProtect/MRT not found — malware protection may be missing"})
+		}
+	}
+
+	// ═══════════════════════════════════════
+	// FILES (3)
+	// ═══════════════════════════════════════
+
+	// 14. World-Writable Dirs in /tmp
+	{
+		wwTmp := run("find /tmp -maxdepth 2 -type d -perm -o+w 2>/dev/null")
+		var wwFiltered []string
+		for _, d := range strings.Split(wwTmp, "\n") {
+			if d != "" && d != "/tmp" {
+				wwFiltered = append(wwFiltered, d)
+			}
+		}
+		if len(wwFiltered) == 0 {
+			checks = append(checks, CheckResult{Name: "World-Writable Dirs (/tmp)", Category: "Files", Status: "pass", Detail: "No unexpected world-writable dirs in /tmp"})
+		} else {
+			checks = append(checks, CheckResult{Name: "World-Writable Dirs (/tmp)", Category: "Files", Status: "warn", Detail: fmt.Sprintf("%d world-writable dir(s) in /tmp", len(wwFiltered))})
+		}
+	}
+
+	// 15. .env File Exposure
+	{
+		home := os.Getenv("HOME")
+		searchPaths := []string{home, home + "/workspace", "/root/workspace"}
+		envCount := 0
+		for _, sp := range searchPaths {
+			envFiles := run(fmt.Sprintf("find %s -maxdepth 3 -name '.env' -type f 2>/dev/null", sp))
+			for _, f := range strings.Split(envFiles, "\n") {
+				if f != "" {
+					envCount++
+				}
+			}
+		}
+		if envCount > 0 {
+			checks = append(checks, CheckResult{Name: ".env File Exposure", Category: "Files", Status: "warn", Detail: fmt.Sprintf("%d .env file(s) found", envCount)})
+		} else {
+			checks = append(checks, CheckResult{Name: ".env File Exposure", Category: "Files", Status: "pass", Detail: "No .env files found"})
+		}
+	}
+
+	// 16. Remote Login (SSH)
+	{
+		remoteLogin := run("systemsetup -getremotelogin 2>/dev/null")
+		if strings.Contains(strings.ToLower(remoteLogin), "off") {
+			checks = append(checks, CheckResult{Name: "Remote Login (SSH)", Category: "Access", Status: "pass", Detail: "Remote Login is disabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Remote Login (SSH)", Category: "Access", Status: "warn", Detail: "Remote Login (SSH) is enabled", Fix: "sudo systemsetup -setremotelogin off", FixCmd: "systemsetup -setremotelogin off", Risk: "medium"})
+		}
+	}
+
+	// ═══════════════════════════════════════
+	// AGENT (4)
+	// ═══════════════════════════════════════
+
+	// 17. API Keys in Env
+	{
+		envVars := os.Environ()
+		keyRe := regexp.MustCompile(`(?i)(API_KEY|SECRET|TOKEN|PASSWORD|PRIVATE_KEY)`)
+		var sensitiveKeys []string
+		for _, env := range envVars {
+			parts := strings.SplitN(env, "=", 2)
+			if len(parts) == 2 && len(parts[1]) > 0 {
+				if keyRe.MatchString(parts[0]) && parts[0] != "TERM" && parts[0] != "SHELL" {
+					sensitiveKeys = append(sensitiveKeys, parts[0])
+				}
+			}
+		}
+		if len(sensitiveKeys) == 0 {
+			checks = append(checks, CheckResult{Name: "API Keys in Env", Category: "Agent", Status: "pass", Detail: "No API keys/secrets found in environment"})
+		} else {
+			show := sensitiveKeys
+			if len(show) > 3 {
+				show = show[:3]
+			}
+			detail := fmt.Sprintf("%d sensitive env var(s): %s", len(sensitiveKeys), strings.Join(show, ", "))
+			if len(sensitiveKeys) > 3 {
+				detail += "..."
+			}
+			checks = append(checks, CheckResult{Name: "API Keys in Env", Category: "Agent", Status: "warn", Detail: detail})
+		}
+	}
+
+	// 18. Docker Socket
+	if _, err := os.Stat("/var/run/docker.sock"); err == nil {
+		dStat := run("stat -f '%Lp' /var/run/docker.sock 2>/dev/null")
+		dPerms, _ := strconv.ParseInt(dStat, 8, 64)
+		dWorldAccess := (dPerms & 0o006) != 0
+		if dWorldAccess {
+			checks = append(checks, CheckResult{Name: "Docker Socket", Category: "Agent", Status: "warn", Detail: "Docker socket is world-accessible", Fix: "chmod 660 /var/run/docker.sock", FixCmd: "chmod 660 /var/run/docker.sock", Risk: "high"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Docker Socket", Category: "Agent", Status: "pass", Detail: "Docker socket properly restricted"})
+		}
+	} else {
+		checks = append(checks, CheckResult{Name: "Docker Socket", Category: "Agent", Status: "pass", Detail: "Docker socket not present"})
+	}
+
+	// 19. OpenClaw Config Perms
+	{
+		home := os.Getenv("HOME")
+		ocConfigPaths := []string{home + "/.config/openclaw/config.json", home + "/.openclaw.json", "/etc/openclaw/config.json", home + "/.openclaw/config.yaml", home + "/.openclaw/config.yml", home + "/.config/openclaw/config.yaml"}
+		ocFound := false
+		for _, p := range ocConfigPaths {
+			if info, err := os.Stat(p); err == nil {
+				mode := info.Mode().Perm()
+				ocFound = true
+				if mode <= 0o600 {
+					checks = append(checks, CheckResult{Name: "OpenClaw Config Perms", Category: "Agent", Status: "pass", Detail: fmt.Sprintf("%s mode %o", p, mode)})
+				} else {
+					checks = append(checks, CheckResult{Name: "OpenClaw Config Perms", Category: "Agent", Status: "warn", Detail: fmt.Sprintf("%s has loose permissions (%o)", p, mode), Fix: fmt.Sprintf("chmod 600 %s", p), FixCmd: fmt.Sprintf("chmod 600 %s", p), Risk: "low"})
+				}
+				break
+			}
+		}
+		if !ocFound {
+			checks = append(checks, CheckResult{Name: "OpenClaw Config Perms", Category: "Agent", Status: "pass", Detail: "No OpenClaw config file found"})
+		}
+	}
+
+	// 20. Workspace Permissions
+	{
+		home := os.Getenv("HOME")
+		wsPaths := []string{home + "/workspace", "/root/workspace"}
+		for _, ws := range wsPaths {
+			if info, err := os.Stat(ws); err == nil {
+				worldRead := info.Mode().Perm() & 0o004
+				if worldRead != 0 {
+					checks = append(checks, CheckResult{Name: "Workspace Permissions", Category: "Agent", Status: "warn", Detail: "Workspace is world-readable", Fix: fmt.Sprintf("chmod 750 %s", ws), FixCmd: fmt.Sprintf("chmod 750 %s", ws), Risk: "low"})
+				} else {
+					checks = append(checks, CheckResult{Name: "Workspace Permissions", Category: "Agent", Status: "pass", Detail: "Workspace not world-readable"})
+				}
+				break
+			}
+		}
+	}
+
+	return checks
+}
+
+func runWindowsChecks() []CheckResult {
+	var checks []CheckResult
+
+	// Helper to run powershell commands
+	ps := func(cmd string) string {
+		out, err := exec.Command("powershell", "-NoProfile", "-NonInteractive", "-Command", cmd).Output()
+		if err != nil {
+			return ""
+		}
+		return strings.TrimSpace(string(out))
+	}
+
+	// Helper to run cmd commands
+	cmd := func(c string) string {
+		out, err := exec.Command("cmd", "/C", c).Output()
+		if err != nil {
+			return ""
+		}
+		return strings.TrimSpace(string(out))
+	}
+
+	// ═══════════════════════════════════════
+	// NETWORK (2)
+	// ═══════════════════════════════════════
+
+	// 1. Windows Firewall
+	fwOut := ps("Get-NetFirewallProfile | Select-Object -Property Name,Enabled | Format-List")
+	if fwOut == "" {
+		fwOut = cmd("netsh advfirewall show allprofiles state")
+	}
+	allEnabled := true
+	if strings.Contains(strings.ToLower(fwOut), "off") || strings.Contains(strings.ToLower(fwOut), "false") {
+		allEnabled = false
+	}
+	if allEnabled && fwOut != "" {
+		checks = append(checks, CheckResult{Name: "Windows Firewall", Category: "Network", Status: "pass", Detail: "All firewall profiles enabled"})
+	} else if fwOut == "" {
+		checks = append(checks, CheckResult{Name: "Windows Firewall", Category: "Network", Status: "warn", Detail: "Could not determine firewall status"})
+	} else {
+		checks = append(checks, CheckResult{Name: "Windows Firewall", Category: "Network", Status: "fail", Detail: "One or more firewall profiles disabled", Fix: "netsh advfirewall set allprofiles state on", FixCmd: "netsh advfirewall set allprofiles state on", Risk: "low"})
+	}
+
+	// 2. Open Ports
+	netstatOut := cmd("netstat -an")
+	dangerousPortSet := map[int]bool{21: true, 23: true, 25: true, 3306: true, 5432: true, 6379: true, 27017: true}
+	dangerousCount := 0
+	listenCount := 0
+	for _, l := range strings.Split(netstatOut, "\n") {
+		if strings.Contains(l, "LISTENING") {
+			listenCount++
+			re := regexp.MustCompile(`:(\d+)\s`)
+			m := re.FindStringSubmatch(l)
+			if m != nil {
+				p, _ := strconv.Atoi(m[1])
+				if dangerousPortSet[p] {
+					dangerousCount++
+				}
+			}
+		}
+	}
+	if dangerousCount == 0 {
+		checks = append(checks, CheckResult{Name: "Open Ports", Category: "Network", Status: "pass", Detail: fmt.Sprintf("%d listening ports, no dangerous ones exposed", listenCount)})
+	} else {
+		checks = append(checks, CheckResult{Name: "Open Ports", Category: "Network", Status: "warn", Detail: fmt.Sprintf("%d potentially dangerous port(s) open", dangerousCount)})
+	}
+
+	// ═══════════════════════════════════════
+	// ACCESS (4)
+	// ═══════════════════════════════════════
+
+	// 3. Password Policy
+	netAccounts := cmd("net accounts")
+	minLen := 0
+	for _, l := range strings.Split(netAccounts, "\n") {
+		if strings.Contains(l, "Minimum password length") {
+			re := regexp.MustCompile(`(\d+)`)
+			if m := re.FindString(l); m != "" {
+				minLen, _ = strconv.Atoi(m)
+			}
+		}
+	}
+	if minLen >= 8 {
+		checks = append(checks, CheckResult{Name: "Password Policy", Category: "Access", Status: "pass", Detail: fmt.Sprintf("Minimum password length: %d", minLen)})
+	} else {
+		checks = append(checks, CheckResult{Name: "Password Policy", Category: "Access", Status: "warn", Detail: fmt.Sprintf("Minimum password length: %d (recommend 8+)", minLen), Fix: "net accounts /minpwlen:8", FixCmd: "net accounts /minpwlen:8", Risk: "low"})
+	}
+
+	// 4. Guest Account
+	guestOut := cmd("net user guest")
+	guestActive := strings.Contains(strings.ToLower(guestOut), "account active               yes")
+	if guestActive {
+		checks = append(checks, CheckResult{Name: "Guest Account", Category: "Access", Status: "fail", Detail: "Guest account is enabled", Fix: "net user guest /active:no", FixCmd: "net user guest /active:no", Risk: "low"})
+	} else {
+		checks = append(checks, CheckResult{Name: "Guest Account", Category: "Access", Status: "pass", Detail: "Guest account is disabled"})
+	}
+
+	// 5. UAC Enabled
+	uacOut := ps("(Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System').EnableLUA")
+	if uacOut == "1" {
+		checks = append(checks, CheckResult{Name: "UAC Enabled", Category: "Access", Status: "pass", Detail: "User Account Control is enabled"})
+	} else if uacOut == "0" {
+		checks = append(checks, CheckResult{Name: "UAC Enabled", Category: "Access", Status: "fail", Detail: "UAC is disabled — all programs run with full privileges", Fix: "Enable UAC in Control Panel > User Accounts", FixCmd: "reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 1 /f", Risk: "medium"})
+	} else {
+		checks = append(checks, CheckResult{Name: "UAC Enabled", Category: "Access", Status: "warn", Detail: "Could not determine UAC status"})
+	}
+
+	// 6. RDP Status
+	rdpOut := ps("(Get-ItemProperty 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server').fDenyTSConnections")
+	if rdpOut == "1" {
+		checks = append(checks, CheckResult{Name: "RDP Status", Category: "Access", Status: "pass", Detail: "Remote Desktop is disabled"})
+	} else if rdpOut == "0" {
+		checks = append(checks, CheckResult{Name: "RDP Status", Category: "Access", Status: "warn", Detail: "Remote Desktop is enabled", Fix: "Disable RDP if not needed", FixCmd: "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\" /v fDenyTSConnections /t REG_DWORD /d 1 /f", Risk: "medium"})
+	} else {
+		checks = append(checks, CheckResult{Name: "RDP Status", Category: "Access", Status: "pass", Detail: "RDP status could not be determined (likely disabled)"})
+	}
+
+	// ═══════════════════════════════════════
+	// SYSTEM (4)
+	// ═══════════════════════════════════════
+
+	// 7. Windows Updates
+	wuOut := ps("(New-Object -ComObject Microsoft.Update.AutoUpdate).Results | Select-Object -ExpandProperty LastInstallationSuccessDate")
+	if wuOut != "" {
+		checks = append(checks, CheckResult{Name: "Windows Updates", Category: "System", Status: "pass", Detail: "Last update: " + wuOut})
+	} else {
+		checks = append(checks, CheckResult{Name: "Windows Updates", Category: "System", Status: "warn", Detail: "Could not determine Windows Update status"})
+	}
+
+	// 8. Disk Usage
+	diskOut := ps("(Get-PSDrive C).Used / ((Get-PSDrive C).Used + (Get-PSDrive C).Free) * 100")
+	diskPct := 0
+	if diskOut != "" {
+		val, _ := strconv.ParseFloat(strings.TrimSpace(diskOut), 64)
+		diskPct = int(val)
+	}
+	diskStatus := "pass"
+	if diskPct > 90 {
+		diskStatus = "fail"
+	} else if diskPct > 75 {
+		diskStatus = "warn"
+	}
+	checks = append(checks, CheckResult{Name: "Disk Usage", Category: "System", Status: diskStatus, Detail: fmt.Sprintf("C: drive %d%% used", diskPct)})
+
+	// 9. RAM Usage
+	{
+		totalMem := ps("[math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1MB)")
+		freeMem := ps("[math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)")
+		total, _ := strconv.Atoi(totalMem)
+		free, _ := strconv.Atoi(freeMem)
+		if total > 0 {
+			used := total - free
+			pct := (used * 100) / total
+			st := "pass"
+			if pct > 85 {
+				st = "warn"
+			}
+			checks = append(checks, CheckResult{Name: "RAM Usage", Category: "System", Status: st, Detail: fmt.Sprintf("%d%% used (%dMB / %dMB)", pct, used, total)})
+		} else {
+			checks = append(checks, CheckResult{Name: "RAM Usage", Category: "System", Status: "pass", Detail: "Memory info not available"})
+		}
+	}
+
+	// 10. Antivirus Status
+	avOut := ps("Get-MpComputerStatus | Select-Object -ExpandProperty RealTimeProtectionEnabled")
+	if avOut == "True" {
+		checks = append(checks, CheckResult{Name: "Antivirus (Defender)", Category: "System", Status: "pass", Detail: "Windows Defender real-time protection is enabled"})
+	} else if avOut == "False" {
+		checks = append(checks, CheckResult{Name: "Antivirus (Defender)", Category: "System", Status: "fail", Detail: "Windows Defender real-time protection is disabled", Fix: "Enable in Windows Security > Virus & threat protection", FixCmd: "powershell -Command Set-MpPreference -DisableRealtimeMonitoring $false", Risk: "low"})
+	} else {
+		checks = append(checks, CheckResult{Name: "Antivirus (Defender)", Category: "System", Status: "warn", Detail: "Could not determine antivirus status"})
+	}
+
+	// ═══════════════════════════════════════
+	// AGENT (2)
+	// ═══════════════════════════════════════
+
+	// 11. API Keys in Env
+	{
+		envVars := os.Environ()
+		keyRe := regexp.MustCompile(`(?i)(API_KEY|SECRET|TOKEN|PASSWORD|PRIVATE_KEY)`)
+		var sensitiveKeys []string
+		for _, env := range envVars {
+			parts := strings.SplitN(env, "=", 2)
+			if len(parts) == 2 && len(parts[1]) > 0 {
+				if keyRe.MatchString(parts[0]) && parts[0] != "TERM" && parts[0] != "SHELL" {
+					sensitiveKeys = append(sensitiveKeys, parts[0])
+				}
+			}
+		}
+		if len(sensitiveKeys) == 0 {
+			checks = append(checks, CheckResult{Name: "API Keys in Env", Category: "Agent", Status: "pass", Detail: "No API keys/secrets found in environment"})
+		} else {
+			show := sensitiveKeys
+			if len(show) > 3 {
+				show = show[:3]
+			}
+			detail := fmt.Sprintf("%d sensitive env var(s): %s", len(sensitiveKeys), strings.Join(show, ", "))
+			if len(sensitiveKeys) > 3 {
+				detail += "..."
+			}
+			checks = append(checks, CheckResult{Name: "API Keys in Env", Category: "Agent", Status: "warn", Detail: detail})
+		}
+	}
+
+	// 12. Docker Socket
+	{
+		dockerPipe := ps("Test-Path \\\\.\\pipe\\docker_engine")
+		if dockerPipe == "True" {
+			checks = append(checks, CheckResult{Name: "Docker Socket", Category: "Agent", Status: "warn", Detail: "Docker named pipe is accessible"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Docker Socket", Category: "Agent", Status: "pass", Detail: "Docker named pipe not present"})
 		}
 	}
 
