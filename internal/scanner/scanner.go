@@ -1069,8 +1069,41 @@ func runDarwinChecks() []CheckResult {
 		checks = append(checks, CheckResult{Name: "Stealth Mode", Category: "Network", Status: "warn", Detail: "Stealth mode is disabled — system responds to probes", Fix: "sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on", FixCmd: "/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on", Risk: "low"})
 	}
 
+	// 3. AirDrop Discovery Mode
+	{
+		airdrop := run("defaults read com.apple.sharingd DiscoverableMode 2>/dev/null")
+		if airdrop == "Off" || airdrop == "Contacts Only" || airdrop == "ContactsOnly" {
+			checks = append(checks, CheckResult{Name: "AirDrop Discovery", Category: "Network", Status: "pass", Detail: fmt.Sprintf("AirDrop set to: %s", airdrop)})
+		} else if airdrop == "Everyone" {
+			checks = append(checks, CheckResult{Name: "AirDrop Discovery", Category: "Network", Status: "warn", Detail: "AirDrop discoverable by Everyone", Fix: "Set AirDrop to Contacts Only in Finder > AirDrop", FixCmd: "defaults write com.apple.sharingd DiscoverableMode -string 'Contacts Only'", Risk: "medium"})
+		} else {
+			checks = append(checks, CheckResult{Name: "AirDrop Discovery", Category: "Network", Status: "pass", Detail: "AirDrop discovery mode not determinable (likely default)"})
+		}
+	}
+
+	// 4. Bluetooth Discoverability
+	{
+		btDisc := run("defaults read /Library/Preferences/com.apple.Bluetooth ControllerPowerState 2>/dev/null")
+		if btDisc == "0" {
+			checks = append(checks, CheckResult{Name: "Bluetooth", Category: "Network", Status: "pass", Detail: "Bluetooth is disabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Bluetooth", Category: "Network", Status: "warn", Detail: "Bluetooth is enabled — ensure discoverability is limited", Fix: "Disable Bluetooth if not needed", FixCmd: "defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerState -int 0 && killall -HUP blued", Risk: "low"})
+		}
+	}
+
+	// 5. Wi-Fi Auto-Join Open Networks
+	{
+		autoJoin := run("defaults read /Library/Preferences/com.apple.wifi.known-networks 2>/dev/null")
+		// Check for auto-join on open (no security) networks
+		if strings.Contains(autoJoin, "SecurityType = Open") || strings.Contains(autoJoin, "AutoLogin = 1") {
+			checks = append(checks, CheckResult{Name: "Wi-Fi Auto-Join Open", Category: "Network", Status: "warn", Detail: "Auto-join for open Wi-Fi networks may be enabled", Fix: "Review Wi-Fi settings, remove open networks", FixCmd: "", Risk: "medium"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Wi-Fi Auto-Join Open", Category: "Network", Status: "pass", Detail: "No open Wi-Fi auto-join detected"})
+		}
+	}
+
 	// ═══════════════════════════════════════
-	// ACCESS (4)
+	// ACCESS (11)
 	// ═══════════════════════════════════════
 
 	// 3. SSH Password Auth
@@ -1099,7 +1132,7 @@ func runDarwinChecks() []CheckResult {
 		checks = append(checks, CheckResult{Name: "Gatekeeper", Category: "Access", Status: "fail", Detail: "Gatekeeper is disabled — unsigned apps can run freely", Fix: "sudo spctl --master-enable", FixCmd: "spctl --master-enable", Risk: "low"})
 	}
 
-	// 6. Screen Lock
+	// Screen Lock
 	screenLockDelay := run("defaults -currentHost read com.apple.screensaver idleTime 2>/dev/null")
 	askForPw := run("defaults read com.apple.screensaver askForPassword 2>/dev/null")
 	if askForPw == "1" {
@@ -1108,8 +1141,84 @@ func runDarwinChecks() []CheckResult {
 		checks = append(checks, CheckResult{Name: "Screen Lock", Category: "Access", Status: "warn", Detail: "Screen lock does not require password on wake"})
 	}
 
+	// Sudo NOPASSWD
+	{
+		sudoers := run("cat /etc/sudoers 2>/dev/null; cat /etc/sudoers.d/* 2>/dev/null")
+		if strings.Contains(sudoers, "NOPASSWD") {
+			checks = append(checks, CheckResult{Name: "Sudo NOPASSWD", Category: "Access", Status: "warn", Detail: "NOPASSWD entries found in sudoers", Fix: "Review /etc/sudoers and remove NOPASSWD entries", FixCmd: "visudo", Risk: "medium"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Sudo NOPASSWD", Category: "Access", Status: "pass", Detail: "No NOPASSWD entries in sudoers"})
+		}
+	}
+
+	// Login Window Config
+	{
+		loginWindow := run("defaults read /Library/Preferences/com.apple.loginwindow SHOWFULLNAME 2>/dev/null")
+		if loginWindow == "1" {
+			checks = append(checks, CheckResult{Name: "Login Window", Category: "Access", Status: "pass", Detail: "Login window shows name+password fields (not user list)"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Login Window", Category: "Access", Status: "warn", Detail: "Login window shows user list — should show name+password", Fix: "defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME -bool true", FixCmd: "defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME -bool true", Risk: "low"})
+		}
+	}
+
+	// Auto-Login Disabled
+	{
+		autoLogin := run("defaults read /Library/Preferences/com.apple.loginwindow autoLoginUser 2>/dev/null")
+		if autoLogin == "" {
+			checks = append(checks, CheckResult{Name: "Auto-Login", Category: "Access", Status: "pass", Detail: "Auto-login is disabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Auto-Login", Category: "Access", Status: "fail", Detail: fmt.Sprintf("Auto-login enabled for user: %s", autoLogin), Fix: "sudo defaults delete /Library/Preferences/com.apple.loginwindow autoLoginUser", FixCmd: "defaults delete /Library/Preferences/com.apple.loginwindow autoLoginUser", Risk: "high"})
+		}
+	}
+
+	// Require Password After Sleep
+	{
+		askPwDelay := run("defaults read com.apple.screensaver askForPasswordDelay 2>/dev/null")
+		if askForPw == "1" {
+			delay, _ := strconv.Atoi(askPwDelay)
+			if delay <= 5 {
+				checks = append(checks, CheckResult{Name: "Password After Sleep", Category: "Access", Status: "pass", Detail: fmt.Sprintf("Password required within %ds of sleep", delay)})
+			} else {
+				checks = append(checks, CheckResult{Name: "Password After Sleep", Category: "Access", Status: "warn", Detail: fmt.Sprintf("Password delay after sleep: %ds (should be ≤5)", delay), Fix: "defaults write com.apple.screensaver askForPasswordDelay -int 0", FixCmd: "defaults write com.apple.screensaver askForPasswordDelay -int 0", Risk: "low"})
+			}
+		} else {
+			checks = append(checks, CheckResult{Name: "Password After Sleep", Category: "Access", Status: "warn", Detail: "Password not required after sleep"})
+		}
+	}
+
+	// Guest Account Disabled
+	{
+		guestEnabled := run("defaults read /Library/Preferences/com.apple.loginwindow GuestEnabled 2>/dev/null")
+		if guestEnabled == "0" || guestEnabled == "" {
+			checks = append(checks, CheckResult{Name: "Guest Account", Category: "Access", Status: "pass", Detail: "Guest account is disabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Guest Account", Category: "Access", Status: "fail", Detail: "Guest account is enabled", Fix: "sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false", FixCmd: "defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false", Risk: "medium"})
+		}
+	}
+
+	// Remote Apple Events
+	{
+		rae := run("systemsetup -getremoteappleevents 2>/dev/null")
+		if strings.Contains(strings.ToLower(rae), "off") {
+			checks = append(checks, CheckResult{Name: "Remote Apple Events", Category: "Access", Status: "pass", Detail: "Remote Apple Events disabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Remote Apple Events", Category: "Access", Status: "warn", Detail: "Remote Apple Events enabled", Fix: "sudo systemsetup -setremoteappleevents off", FixCmd: "systemsetup -setremoteappleevents off", Risk: "medium"})
+		}
+	}
+
+	// Remote Management (ARD)
+	{
+		ard := run("ps aux 2>/dev/null | grep -c '[A]RDAgent'")
+		ardCount, _ := strconv.Atoi(ard)
+		if ardCount == 0 {
+			checks = append(checks, CheckResult{Name: "Remote Management (ARD)", Category: "Access", Status: "pass", Detail: "ARD agent not running"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Remote Management (ARD)", Category: "Access", Status: "warn", Detail: "Apple Remote Desktop agent is running", Fix: "sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop", FixCmd: "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop", Risk: "medium"})
+		}
+	}
+
 	// ═══════════════════════════════════════
-	// SYSTEM (7)
+	// SYSTEM (12)
 	// ═══════════════════════════════════════
 
 	// 7. FileVault Encryption
@@ -1238,11 +1347,136 @@ func runDarwinChecks() []CheckResult {
 		}
 	}
 
+	// Time Machine Backup
+	{
+		tmStatus := run("defaults read /Library/Preferences/com.apple.TimeMachine AutoBackup 2>/dev/null")
+		if tmStatus == "1" {
+			checks = append(checks, CheckResult{Name: "Time Machine", Category: "System", Status: "pass", Detail: "Time Machine auto-backup is enabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Time Machine", Category: "System", Status: "warn", Detail: "Time Machine auto-backup is not enabled", Fix: "Enable Time Machine in System Settings", FixCmd: "defaults write /Library/Preferences/com.apple.TimeMachine AutoBackup -bool true", Risk: "medium"})
+		}
+	}
+
+	// Firmware Password / Apple Silicon
+	{
+		hwModel := run("sysctl -n hw.model 2>/dev/null")
+		isAppleSilicon := strings.Contains(run("sysctl -n machdep.cpu.brand_string 2>/dev/null"), "Apple")
+		if isAppleSilicon {
+			checks = append(checks, CheckResult{Name: "Firmware Security", Category: "System", Status: "pass", Detail: fmt.Sprintf("Apple Silicon (%s) — firmware password N/A, Secure Enclave protects boot", hwModel)})
+		} else {
+			fwPw := run("firmwarepasswd -check 2>/dev/null")
+			if strings.Contains(fwPw, "Yes") {
+				checks = append(checks, CheckResult{Name: "Firmware Password", Category: "System", Status: "pass", Detail: "Firmware password is set"})
+			} else {
+				checks = append(checks, CheckResult{Name: "Firmware Password", Category: "System", Status: "warn", Detail: "Firmware password not set (Intel Mac)", Fix: "Set firmware password via Recovery Mode", FixCmd: "", Risk: "medium"})
+			}
+		}
+	}
+
+	// Automatic Update Check
+	{
+		autoCheck := run("defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled 2>/dev/null")
+		if autoCheck == "1" {
+			checks = append(checks, CheckResult{Name: "Auto Update Check", Category: "System", Status: "pass", Detail: "Automatic update check is enabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Auto Update Check", Category: "System", Status: "warn", Detail: "Automatic software update check is disabled", Fix: "defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true", FixCmd: "defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true", Risk: "low"})
+		}
+	}
+
+	// SIP Detailed Check
+	{
+		sipDetail := run("csrutil status 2>/dev/null")
+		if strings.Contains(sipDetail, "enabled") && !strings.Contains(sipDetail, "Custom Configuration") {
+			checks = append(checks, CheckResult{Name: "SIP Detailed", Category: "System", Status: "pass", Detail: "SIP fully enabled with default configuration"})
+		} else if strings.Contains(sipDetail, "Custom Configuration") {
+			checks = append(checks, CheckResult{Name: "SIP Detailed", Category: "System", Status: "warn", Detail: "SIP has custom configuration — some protections may be weakened"})
+		} else {
+			checks = append(checks, CheckResult{Name: "SIP Detailed", Category: "System", Status: "fail", Detail: "SIP is disabled or has unknown configuration"})
+		}
+	}
+
+	// Homebrew Audit
+	{
+		brewPath := run("which brew 2>/dev/null")
+		if brewPath != "" {
+			outdated := run("brew outdated 2>/dev/null | wc -l")
+			count, _ := strconv.Atoi(strings.TrimSpace(outdated))
+			if count > 10 {
+				checks = append(checks, CheckResult{Name: "Homebrew Audit", Category: "System", Status: "warn", Detail: fmt.Sprintf("%d outdated Homebrew packages", count), Fix: "brew upgrade", FixCmd: "brew upgrade", Risk: "low"})
+			} else {
+				checks = append(checks, CheckResult{Name: "Homebrew Audit", Category: "System", Status: "pass", Detail: fmt.Sprintf("%d outdated Homebrew packages", count)})
+			}
+		} else {
+			checks = append(checks, CheckResult{Name: "Homebrew Audit", Category: "System", Status: "pass", Detail: "Homebrew not installed"})
+		}
+	}
+
 	// ═══════════════════════════════════════
-	// FILES (3)
+	// FILES (7)
 	// ═══════════════════════════════════════
 
-	// 14. World-Writable Dirs in /tmp
+	// Library Validation
+	{
+		libVal := run("defaults read /Library/Preferences/com.apple.security.libraryvalidation Enabled 2>/dev/null")
+		if libVal == "0" {
+			checks = append(checks, CheckResult{Name: "Library Validation", Category: "Files", Status: "warn", Detail: "Library Validation is disabled", Fix: "defaults write /Library/Preferences/com.apple.security.libraryvalidation Enabled -bool true", FixCmd: "defaults write /Library/Preferences/com.apple.security.libraryvalidation Enabled -bool true", Risk: "medium"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Library Validation", Category: "Files", Status: "pass", Detail: "Library Validation enabled (default)"})
+		}
+	}
+
+	// Crontab Audit
+	{
+		cronEntries := run("crontab -l 2>/dev/null")
+		suspiciousRe := regexp.MustCompile(`(?i)curl|wget|nc\s|ncat|bash\s+-i|python.*-c|perl.*-e|reverse|backdoor`)
+		hasSuspicious := suspiciousRe.MatchString(cronEntries)
+		cronCount := 0
+		for _, l := range strings.Split(cronEntries, "\n") {
+			l = strings.TrimSpace(l)
+			if l != "" && !strings.HasPrefix(l, "#") {
+				cronCount++
+			}
+		}
+		if hasSuspicious {
+			checks = append(checks, CheckResult{Name: "Crontab Audit", Category: "Files", Status: "fail", Detail: "Suspicious patterns found in cron entries"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Crontab Audit", Category: "Files", Status: "pass", Detail: fmt.Sprintf("%d cron entries, no suspicious patterns", cronCount)})
+		}
+	}
+
+	// SSH Authorized Keys Permissions
+	{
+		home := os.Getenv("HOME")
+		akPath := home + "/.ssh/authorized_keys"
+		if info, err := os.Stat(akPath); err == nil {
+			mode := info.Mode().Perm()
+			if mode <= 0o600 {
+				checks = append(checks, CheckResult{Name: "SSH Authorized Keys", Category: "Files", Status: "pass", Detail: fmt.Sprintf("authorized_keys mode %o", mode)})
+			} else {
+				checks = append(checks, CheckResult{Name: "SSH Authorized Keys", Category: "Files", Status: "warn", Detail: fmt.Sprintf("authorized_keys has loose permissions (%o)", mode), Fix: fmt.Sprintf("chmod 600 %s", akPath), FixCmd: fmt.Sprintf("chmod 600 %s", akPath), Risk: "low"})
+			}
+		} else {
+			checks = append(checks, CheckResult{Name: "SSH Authorized Keys", Category: "Files", Status: "pass", Detail: "No authorized_keys file found"})
+		}
+	}
+
+	// Home Directory Permissions
+	{
+		home := os.Getenv("HOME")
+		if info, err := os.Stat(home); err == nil {
+			mode := info.Mode().Perm()
+			worldRead := mode & 0o004
+			if worldRead != 0 {
+				checks = append(checks, CheckResult{Name: "Home Dir Permissions", Category: "Files", Status: "warn", Detail: fmt.Sprintf("Home directory is world-readable (%o)", mode), Fix: fmt.Sprintf("chmod 750 %s", home), FixCmd: fmt.Sprintf("chmod 750 %s", home), Risk: "low"})
+			} else {
+				checks = append(checks, CheckResult{Name: "Home Dir Permissions", Category: "Files", Status: "pass", Detail: fmt.Sprintf("Home directory mode %o", mode)})
+			}
+		} else {
+			checks = append(checks, CheckResult{Name: "Home Dir Permissions", Category: "Files", Status: "pass", Detail: "Home directory check OK"})
+		}
+	}
+
+	// World-Writable Dirs in /tmp
 	{
 		wwTmp := run("find /tmp -maxdepth 2 -type d -perm -o+w 2>/dev/null")
 		var wwFiltered []string
@@ -1356,7 +1590,7 @@ func runDarwinChecks() []CheckResult {
 		}
 	}
 
-	// 20. Workspace Permissions
+	// Workspace Permissions
 	{
 		home := os.Getenv("HOME")
 		wsPaths := []string{home + "/workspace", "/root/workspace"}
@@ -1370,6 +1604,55 @@ func runDarwinChecks() []CheckResult {
 				}
 				break
 			}
+		}
+	}
+
+	// Skill Integrity
+	{
+		home := os.Getenv("HOME")
+		skillsDirs := []string{home + "/workspace/skills", "/root/workspace/skills"}
+		checked := false
+		for _, skillsDir := range skillsDirs {
+			entries, err := os.ReadDir(skillsDir)
+			if err != nil {
+				continue
+			}
+			checked = true
+			var skills []string
+			var unsigned []string
+			for _, e := range entries {
+				if e.IsDir() {
+					skills = append(skills, e.Name())
+					if !fileExists(filepath.Join(skillsDir, e.Name(), "SIGNATURE")) {
+						unsigned = append(unsigned, e.Name())
+					}
+				}
+			}
+			if len(skills) == 0 {
+				checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "pass", Detail: "No skills installed"})
+			} else if len(unsigned) == 0 {
+				checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "pass", Detail: fmt.Sprintf("%d skill(s) installed, all signed", len(skills))})
+			} else {
+				show := unsigned
+				if len(show) > 3 {
+					show = show[:3]
+				}
+				checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "warn", Detail: fmt.Sprintf("%d/%d skill(s) unsigned: %s", len(unsigned), len(skills), strings.Join(show, ", "))})
+			}
+			break
+		}
+		if !checked {
+			checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "pass", Detail: "Skills directory not found"})
+		}
+	}
+
+	// OpenClaw Version
+	{
+		ocVersion := run("openclaw --version 2>/dev/null")
+		if ocVersion != "" {
+			checks = append(checks, CheckResult{Name: "OpenClaw Version", Category: "Agent", Status: "pass", Detail: fmt.Sprintf("OpenClaw version: %s", ocVersion)})
+		} else {
+			checks = append(checks, CheckResult{Name: "OpenClaw Version", Category: "Agent", Status: "pass", Detail: "OpenClaw version not available"})
 		}
 	}
 
@@ -1442,8 +1725,54 @@ func runWindowsChecks() []CheckResult {
 		checks = append(checks, CheckResult{Name: "Open Ports", Category: "Network", Status: "warn", Detail: fmt.Sprintf("%d potentially dangerous port(s) open", dangerousCount)})
 	}
 
+	// SMB v1 Disabled
+	{
+		smbOut := ps("Get-SmbServerConfiguration | Select-Object -ExpandProperty EnableSMB1Protocol")
+		if strings.ToLower(smbOut) == "false" {
+			checks = append(checks, CheckResult{Name: "SMB v1 Disabled", Category: "Network", Status: "pass", Detail: "SMB v1 is disabled"})
+		} else if strings.ToLower(smbOut) == "true" {
+			checks = append(checks, CheckResult{Name: "SMB v1 Disabled", Category: "Network", Status: "fail", Detail: "SMB v1 is enabled — vulnerable to EternalBlue", Fix: "Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol", FixCmd: "powershell -Command \"Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force\"", Risk: "high"})
+		} else {
+			checks = append(checks, CheckResult{Name: "SMB v1 Disabled", Category: "Network", Status: "pass", Detail: "Could not determine SMB v1 status"})
+		}
+	}
+
+	// NetBIOS over TCP/IP
+	{
+		nbOut := ps("Get-WmiObject Win32_NetworkAdapterConfiguration -Filter 'IPEnabled=true' | Select-Object -ExpandProperty TcpipNetbiosOptions")
+		if strings.Contains(nbOut, "2") {
+			checks = append(checks, CheckResult{Name: "NetBIOS over TCP/IP", Category: "Network", Status: "pass", Detail: "NetBIOS over TCP/IP is disabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "NetBIOS over TCP/IP", Category: "Network", Status: "warn", Detail: "NetBIOS over TCP/IP may be enabled", Fix: "Disable NetBIOS in network adapter advanced settings", FixCmd: "", Risk: "medium"})
+		}
+	}
+
+	// Network Discovery
+	{
+		ndOut := ps("Get-NetFirewallRule -DisplayGroup 'Network Discovery' -ErrorAction SilentlyContinue | Where-Object {$_.Enabled -eq 'True'} | Measure-Object | Select-Object -ExpandProperty Count")
+		ndCount, _ := strconv.Atoi(ndOut)
+		if ndCount == 0 {
+			checks = append(checks, CheckResult{Name: "Network Discovery", Category: "Network", Status: "pass", Detail: "Network Discovery is disabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Network Discovery", Category: "Network", Status: "warn", Detail: fmt.Sprintf("Network Discovery has %d enabled rules", ndCount), Fix: "Disable Network Discovery in Network and Sharing Center", FixCmd: "powershell -Command \"Get-NetFirewallRule -DisplayGroup 'Network Discovery' | Set-NetFirewallRule -Enabled False\"", Risk: "low"})
+		}
+	}
+
+	// Remote Desktop NLA
+	{
+		nlaOut := ps("(Get-ItemProperty 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -ErrorAction SilentlyContinue).UserAuthentication")
+		rdpEnabled := ps("(Get-ItemProperty 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server').fDenyTSConnections")
+		if rdpEnabled == "1" {
+			checks = append(checks, CheckResult{Name: "RDP NLA", Category: "Network", Status: "pass", Detail: "RDP disabled — NLA check not applicable"})
+		} else if nlaOut == "1" {
+			checks = append(checks, CheckResult{Name: "RDP NLA", Category: "Network", Status: "pass", Detail: "Network Level Authentication enabled for RDP"})
+		} else {
+			checks = append(checks, CheckResult{Name: "RDP NLA", Category: "Network", Status: "warn", Detail: "NLA not enabled for RDP", Fix: "Enable NLA in System Properties > Remote", FixCmd: "reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp\" /v UserAuthentication /t REG_DWORD /d 1 /f", Risk: "medium"})
+		}
+	}
+
 	// ═══════════════════════════════════════
-	// ACCESS (4)
+	// ACCESS (12)
 	// ═══════════════════════════════════════
 
 	// 3. Password Policy
@@ -1482,7 +1811,7 @@ func runWindowsChecks() []CheckResult {
 		checks = append(checks, CheckResult{Name: "UAC Enabled", Category: "Access", Status: "warn", Detail: "Could not determine UAC status"})
 	}
 
-	// 6. RDP Status
+	// RDP Status
 	rdpOut := ps("(Get-ItemProperty 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server').fDenyTSConnections")
 	if rdpOut == "1" {
 		checks = append(checks, CheckResult{Name: "RDP Status", Category: "Access", Status: "pass", Detail: "Remote Desktop is disabled"})
@@ -1492,8 +1821,109 @@ func runWindowsChecks() []CheckResult {
 		checks = append(checks, CheckResult{Name: "RDP Status", Category: "Access", Status: "pass", Detail: "RDP status could not be determined (likely disabled)"})
 	}
 
+	// Account Lockout Policy
+	{
+		netAcc := cmd("net accounts")
+		lockoutThreshold := 0
+		for _, l := range strings.Split(netAcc, "\n") {
+			if strings.Contains(l, "Lockout threshold") {
+				re := regexp.MustCompile(`(\d+)`)
+				if m := re.FindString(l); m != "" {
+					lockoutThreshold, _ = strconv.Atoi(m)
+				}
+			}
+		}
+		if lockoutThreshold > 0 && lockoutThreshold <= 10 {
+			checks = append(checks, CheckResult{Name: "Account Lockout", Category: "Access", Status: "pass", Detail: fmt.Sprintf("Account lockout after %d failed attempts", lockoutThreshold)})
+		} else {
+			checks = append(checks, CheckResult{Name: "Account Lockout", Category: "Access", Status: "warn", Detail: "Account lockout not configured or threshold too high", Fix: "net accounts /lockoutthreshold:5", FixCmd: "net accounts /lockoutthreshold:5", Risk: "medium"})
+		}
+	}
+
+	// Admin Shares
+	{
+		shares := cmd("net share")
+		hasAdminShares := strings.Contains(shares, "C$") || strings.Contains(shares, "ADMIN$")
+		if !hasAdminShares {
+			checks = append(checks, CheckResult{Name: "Admin Shares", Category: "Access", Status: "pass", Detail: "Default admin shares not detected"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Admin Shares", Category: "Access", Status: "warn", Detail: "Default admin shares (C$, ADMIN$) are enabled", Fix: "Disable via registry AutoShareWks=0", FixCmd: "reg add HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters /v AutoShareWks /t REG_DWORD /d 0 /f", Risk: "medium"})
+		}
+	}
+
+	// Auto-Logon
+	{
+		autoLogon := ps("(Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon' -ErrorAction SilentlyContinue).AutoAdminLogon")
+		if autoLogon == "1" {
+			checks = append(checks, CheckResult{Name: "Auto-Logon", Category: "Access", Status: "fail", Detail: "Auto-logon is enabled", Fix: "Disable auto-logon in registry", FixCmd: "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\" /v AutoAdminLogon /t REG_SZ /d 0 /f", Risk: "high"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Auto-Logon", Category: "Access", Status: "pass", Detail: "Auto-logon is disabled"})
+		}
+	}
+
+	// Screen Lock Timeout
+	{
+		screenTimeout := ps("(Get-ItemProperty 'HKCU:\\Control Panel\\Desktop' -ErrorAction SilentlyContinue).ScreenSaveTimeOut")
+		screenActive := ps("(Get-ItemProperty 'HKCU:\\Control Panel\\Desktop' -ErrorAction SilentlyContinue).ScreenSaveActive")
+		screenSecure := ps("(Get-ItemProperty 'HKCU:\\Control Panel\\Desktop' -ErrorAction SilentlyContinue).ScreenSaverIsSecure")
+		if screenActive == "1" && screenSecure == "1" {
+			checks = append(checks, CheckResult{Name: "Screen Lock", Category: "Access", Status: "pass", Detail: fmt.Sprintf("Screen saver with password, timeout: %ss", screenTimeout)})
+		} else {
+			checks = append(checks, CheckResult{Name: "Screen Lock", Category: "Access", Status: "warn", Detail: "Screen saver lock not properly configured", Fix: "Enable screen saver with password in Settings > Personalization", FixCmd: "", Risk: "low"})
+		}
+	}
+
+	// Number of Local Admins
+	{
+		admins := ps("(Get-LocalGroupMember -Group 'Administrators' -ErrorAction SilentlyContinue | Measure-Object).Count")
+		adminCount, _ := strconv.Atoi(admins)
+		if adminCount <= 2 {
+			checks = append(checks, CheckResult{Name: "Local Admins", Category: "Access", Status: "pass", Detail: fmt.Sprintf("%d local administrator(s)", adminCount)})
+		} else {
+			checks = append(checks, CheckResult{Name: "Local Admins", Category: "Access", Status: "warn", Detail: fmt.Sprintf("%d local administrators — consider reducing", adminCount), Risk: "medium"})
+		}
+	}
+
+	// Audit Policy
+	{
+		auditOut := cmd("auditpol /get /category:* 2>nul")
+		noAudit := strings.Count(auditOut, "No Auditing")
+		totalLines := 0
+		for _, l := range strings.Split(auditOut, "\n") {
+			l = strings.TrimSpace(l)
+			if l != "" && !strings.HasPrefix(l, "System") && !strings.HasPrefix(l, "Category") {
+				totalLines++
+			}
+		}
+		if totalLines > 0 && noAudit > totalLines/2 {
+			checks = append(checks, CheckResult{Name: "Audit Policy", Category: "Access", Status: "warn", Detail: fmt.Sprintf("%d/%d audit categories set to No Auditing", noAudit, totalLines), Fix: "Configure audit policy via Group Policy or auditpol", FixCmd: "auditpol /set /category:* /success:enable /failure:enable", Risk: "medium"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Audit Policy", Category: "Access", Status: "pass", Detail: "Audit policy is reasonably configured"})
+		}
+	}
+
+	// PowerShell Execution Policy
+	{
+		execPol := ps("Get-ExecutionPolicy")
+		if execPol == "Restricted" || execPol == "AllSigned" {
+			checks = append(checks, CheckResult{Name: "PS Execution Policy", Category: "Access", Status: "pass", Detail: fmt.Sprintf("PowerShell execution policy: %s", execPol)})
+		} else {
+			checks = append(checks, CheckResult{Name: "PS Execution Policy", Category: "Access", Status: "warn", Detail: fmt.Sprintf("PowerShell execution policy: %s", execPol), Fix: "Set-ExecutionPolicy AllSigned", FixCmd: "powershell -Command \"Set-ExecutionPolicy AllSigned -Force\"", Risk: "medium"})
+		}
+	}
+
+	// PowerShell Script Block Logging
+	{
+		sbl := ps("(Get-ItemProperty 'HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging' -ErrorAction SilentlyContinue).EnableScriptBlockLogging")
+		if sbl == "1" {
+			checks = append(checks, CheckResult{Name: "PS Script Block Logging", Category: "Access", Status: "pass", Detail: "PowerShell Script Block Logging is enabled"})
+		} else {
+			checks = append(checks, CheckResult{Name: "PS Script Block Logging", Category: "Access", Status: "warn", Detail: "PowerShell Script Block Logging is not enabled", Fix: "Enable via Group Policy or registry", FixCmd: "reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging /v EnableScriptBlockLogging /t REG_DWORD /d 1 /f", Risk: "low"})
+		}
+	}
+
 	// ═══════════════════════════════════════
-	// SYSTEM (4)
+	// SYSTEM (10)
 	// ═══════════════════════════════════════
 
 	// 7. Windows Updates
@@ -1548,11 +1978,158 @@ func runWindowsChecks() []CheckResult {
 		checks = append(checks, CheckResult{Name: "Antivirus (Defender)", Category: "System", Status: "warn", Detail: "Could not determine antivirus status"})
 	}
 
+	// Secure Boot
+	{
+		sbOut := ps("try { Confirm-SecureBootUEFI } catch { 'Unknown' }")
+		if strings.ToLower(sbOut) == "true" {
+			checks = append(checks, CheckResult{Name: "Secure Boot", Category: "System", Status: "pass", Detail: "Secure Boot is enabled"})
+		} else if strings.ToLower(sbOut) == "false" {
+			checks = append(checks, CheckResult{Name: "Secure Boot", Category: "System", Status: "warn", Detail: "Secure Boot is disabled", Fix: "Enable Secure Boot in UEFI/BIOS settings", FixCmd: "", Risk: "medium"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Secure Boot", Category: "System", Status: "pass", Detail: "Secure Boot status not determinable"})
+		}
+	}
+
+	// BitLocker
+	{
+		blOut := ps("(Get-BitLockerVolume -MountPoint 'C:' -ErrorAction SilentlyContinue).ProtectionStatus")
+		if blOut == "On" || blOut == "1" {
+			checks = append(checks, CheckResult{Name: "BitLocker", Category: "System", Status: "pass", Detail: "BitLocker is enabled on C:"})
+		} else if blOut == "Off" || blOut == "0" {
+			checks = append(checks, CheckResult{Name: "BitLocker", Category: "System", Status: "fail", Detail: "BitLocker is not enabled on C:", Fix: "Enable BitLocker in Control Panel", FixCmd: "manage-bde -on C:", Risk: "high"})
+		} else {
+			checks = append(checks, CheckResult{Name: "BitLocker", Category: "System", Status: "warn", Detail: "Could not determine BitLocker status"})
+		}
+	}
+
+	// Last Reboot Time
+	{
+		lastBoot := ps("[Management.ManagementDateTimeConverter]::ToDateTime((Get-WmiObject Win32_OperatingSystem).LastBootUpTime)")
+		if lastBoot != "" {
+			checks = append(checks, CheckResult{Name: "Last Reboot", Category: "System", Status: "pass", Detail: fmt.Sprintf("Last boot: %s", lastBoot)})
+		} else {
+			checks = append(checks, CheckResult{Name: "Last Reboot", Category: "System", Status: "pass", Detail: "Could not determine last reboot time"})
+		}
+	}
+
+	// Pending Reboot
+	{
+		pendingReboot := ps("Test-Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Component Based Servicing\\RebootPending'")
+		pendingWU := ps("Test-Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired'")
+		if pendingReboot == "True" || pendingWU == "True" {
+			checks = append(checks, CheckResult{Name: "Pending Reboot", Category: "System", Status: "warn", Detail: "System has a pending reboot", Fix: "Restart the computer", FixCmd: "", Risk: "low"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Pending Reboot", Category: "System", Status: "pass", Detail: "No pending reboot"})
+		}
+	}
+
+	// Windows Version/Build (EOL check)
+	{
+		winVer := ps("[System.Environment]::OSVersion.Version.ToString()")
+		buildNum := ps("(Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion').DisplayVersion")
+		detail := fmt.Sprintf("Windows %s (build %s)", buildNum, winVer)
+		// Basic EOL check: builds older than 21H2 are EOL
+		if strings.HasPrefix(buildNum, "1") && !strings.HasPrefix(buildNum, "10") {
+			checks = append(checks, CheckResult{Name: "Windows Version", Category: "System", Status: "warn", Detail: detail + " — may be end of life", Risk: "high"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Windows Version", Category: "System", Status: "pass", Detail: detail})
+		}
+	}
+
+	// Exploit Protection
+	{
+		epOut := ps("(Get-ProcessMitigation -System -ErrorAction SilentlyContinue).DEP.Enable")
+		if strings.ToLower(epOut) == "true" || epOut == "ON" {
+			checks = append(checks, CheckResult{Name: "Exploit Protection (DEP)", Category: "System", Status: "pass", Detail: "DEP is enabled system-wide"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Exploit Protection (DEP)", Category: "System", Status: "warn", Detail: "DEP may not be fully enabled", Fix: "Enable DEP in Windows Security > App & browser control", FixCmd: "powershell -Command \"Set-ProcessMitigation -System -Enable DEP\"", Risk: "medium"})
+		}
+	}
+
 	// ═══════════════════════════════════════
-	// AGENT (2)
+	// FILES (3)
 	// ═══════════════════════════════════════
 
-	// 11. API Keys in Env
+	// World-Writable Dirs in Temp
+	{
+		tempDir := os.Getenv("TEMP")
+		if tempDir == "" {
+			tempDir = "C:\\Windows\\Temp"
+		}
+		wwOut := ps(fmt.Sprintf("(Get-ChildItem '%s' -Directory -ErrorAction SilentlyContinue | Where-Object { (Get-Acl $_.FullName).Access | Where-Object { $_.IdentityReference -eq 'Everyone' -and $_.FileSystemRights -match 'Write' } } | Measure-Object).Count", tempDir))
+		wwCount, _ := strconv.Atoi(wwOut)
+		if wwCount == 0 {
+			checks = append(checks, CheckResult{Name: "World-Writable Temp", Category: "Files", Status: "pass", Detail: "No world-writable directories in temp"})
+		} else {
+			checks = append(checks, CheckResult{Name: "World-Writable Temp", Category: "Files", Status: "warn", Detail: fmt.Sprintf("%d world-writable dir(s) in temp", wwCount)})
+		}
+	}
+
+	// Unquoted Service Paths
+	{
+		unquoted := ps("Get-WmiObject Win32_Service -ErrorAction SilentlyContinue | Where-Object { $_.PathName -notmatch '\"' -and $_.PathName -match ' ' -and $_.PathName -notmatch 'system32' } | Measure-Object | Select-Object -ExpandProperty Count")
+		uqCount, _ := strconv.Atoi(unquoted)
+		if uqCount == 0 {
+			checks = append(checks, CheckResult{Name: "Unquoted Service Paths", Category: "Files", Status: "pass", Detail: "No unquoted service paths found"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Unquoted Service Paths", Category: "Files", Status: "warn", Detail: fmt.Sprintf("%d service(s) with unquoted paths", uqCount), Fix: "Quote the paths in service configurations", FixCmd: "", Risk: "medium"})
+		}
+	}
+
+	// AutoRun Disabled
+	{
+		autoRun := ps("(Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer' -ErrorAction SilentlyContinue).NoDriveTypeAutoRun")
+		if autoRun == "255" || autoRun == "0xFF" {
+			checks = append(checks, CheckResult{Name: "AutoRun Disabled", Category: "Files", Status: "pass", Detail: "AutoRun is disabled for all drives"})
+		} else {
+			checks = append(checks, CheckResult{Name: "AutoRun Disabled", Category: "Files", Status: "warn", Detail: "AutoRun may not be fully disabled", Fix: "Disable AutoRun via Group Policy", FixCmd: "reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer /v NoDriveTypeAutoRun /t REG_DWORD /d 255 /f", Risk: "low"})
+		}
+	}
+
+	// ═══════════════════════════════════════
+	// AGENT (7)
+	// ═══════════════════════════════════════
+
+	// Docker Desktop Socket
+	{
+		dockerPipe := ps("Test-Path \\\\.\\pipe\\docker_engine")
+		if dockerPipe == "True" {
+			checks = append(checks, CheckResult{Name: "Docker Desktop Socket", Category: "Agent", Status: "warn", Detail: "Docker named pipe is accessible"})
+		} else {
+			checks = append(checks, CheckResult{Name: "Docker Desktop Socket", Category: "Agent", Status: "pass", Detail: "Docker named pipe not present"})
+		}
+	}
+
+	// OpenClaw Config Permissions
+	{
+		home := os.Getenv("USERPROFILE")
+		ocPaths := []string{home + "\\.openclaw\\config.yaml", home + "\\.openclaw\\config.yml", home + "\\.config\\openclaw\\config.json"}
+		ocFound := false
+		for _, p := range ocPaths {
+			if _, err := os.Stat(p); err == nil {
+				ocFound = true
+				checks = append(checks, CheckResult{Name: "OpenClaw Config", Category: "Agent", Status: "pass", Detail: fmt.Sprintf("Config found at %s", p)})
+				break
+			}
+		}
+		if !ocFound {
+			checks = append(checks, CheckResult{Name: "OpenClaw Config", Category: "Agent", Status: "pass", Detail: "No OpenClaw config file found"})
+		}
+	}
+
+	// Workspace Permissions
+	{
+		home := os.Getenv("USERPROFILE")
+		wsPaths := []string{home + "\\workspace", "C:\\workspace"}
+		for _, ws := range wsPaths {
+			if _, err := os.Stat(ws); err == nil {
+				checks = append(checks, CheckResult{Name: "Workspace Permissions", Category: "Agent", Status: "pass", Detail: fmt.Sprintf("Workspace exists at %s", ws)})
+				break
+			}
+		}
+	}
+
+	// API Keys in Env
 	{
 		envVars := os.Environ()
 		keyRe := regexp.MustCompile(`(?i)(API_KEY|SECRET|TOKEN|PASSWORD|PRIVATE_KEY)`)
@@ -1580,13 +2157,52 @@ func runWindowsChecks() []CheckResult {
 		}
 	}
 
-	// 12. Docker Socket
+	// Skill Integrity
 	{
-		dockerPipe := ps("Test-Path \\\\.\\pipe\\docker_engine")
-		if dockerPipe == "True" {
-			checks = append(checks, CheckResult{Name: "Docker Socket", Category: "Agent", Status: "warn", Detail: "Docker named pipe is accessible"})
+		home := os.Getenv("USERPROFILE")
+		skillsDirs := []string{home + "\\workspace\\skills", "C:\\workspace\\skills"}
+		checked := false
+		for _, skillsDir := range skillsDirs {
+			entries, err := os.ReadDir(skillsDir)
+			if err != nil {
+				continue
+			}
+			checked = true
+			var skills []string
+			var unsigned []string
+			for _, e := range entries {
+				if e.IsDir() {
+					skills = append(skills, e.Name())
+					if !fileExists(filepath.Join(skillsDir, e.Name(), "SIGNATURE")) {
+						unsigned = append(unsigned, e.Name())
+					}
+				}
+			}
+			if len(skills) == 0 {
+				checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "pass", Detail: "No skills installed"})
+			} else if len(unsigned) == 0 {
+				checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "pass", Detail: fmt.Sprintf("%d skill(s) installed, all signed", len(skills))})
+			} else {
+				show := unsigned
+				if len(show) > 3 {
+					show = show[:3]
+				}
+				checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "warn", Detail: fmt.Sprintf("%d/%d skill(s) unsigned: %s", len(unsigned), len(skills), strings.Join(show, ", "))})
+			}
+			break
+		}
+		if !checked {
+			checks = append(checks, CheckResult{Name: "Skill Integrity", Category: "Agent", Status: "pass", Detail: "Skills directory not found"})
+		}
+	}
+
+	// OpenClaw Version
+	{
+		ocVersion := cmd("openclaw --version 2>nul")
+		if ocVersion != "" {
+			checks = append(checks, CheckResult{Name: "OpenClaw Version", Category: "Agent", Status: "pass", Detail: fmt.Sprintf("OpenClaw version: %s", ocVersion)})
 		} else {
-			checks = append(checks, CheckResult{Name: "Docker Socket", Category: "Agent", Status: "pass", Detail: "Docker named pipe not present"})
+			checks = append(checks, CheckResult{Name: "OpenClaw Version", Category: "Agent", Status: "pass", Detail: "OpenClaw version not available"})
 		}
 	}
 
