@@ -1,6 +1,7 @@
-# Binaries
-clawshield
-*.exe
+# Binaries (root level only)
+/clawshield
+# Don't ignore dist/ binaries
+!dist/
 *.dll
 *.so
 *.dylib
