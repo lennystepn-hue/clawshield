@@ -32,7 +32,7 @@ That's it. Full security report in under 5 seconds.
 
 ## ✨ Features
 
-**🔍 Security Scanner** — 20+ checks across network, access, system, files, and agent security
+**🔍 Security Scanner** — 50+ checks across network, access, system, files, and agent security
 
 **🔒 Auto-Hardener** — One-command fixes for common vulnerabilities (firewall, SSH, fail2ban)
 
@@ -205,7 +205,7 @@ Works standalone on any Linux/macOS system, but shines as part of the OpenClaw s
 | | ClawShield | Manual |
 |:---|:---|:---|
 | Time to audit | **5 seconds** | 30-60 minutes |
-| Checks performed | **20+ automated** | Whatever you remember |
+| Checks performed | **50+ automated** | Whatever you remember |
 | Consistency | Same every time | Varies by expertise |
 | Fix application | One command | Copy-paste from guides |
 | Skill vetting | Automated pattern matching | Read every file yourself |
