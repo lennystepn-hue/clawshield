@@ -19,7 +19,10 @@ AI agents run with powerful permissions — root access, API keys, network acces
 ## ⚡ Quick Start
 
 ```bash
-# Install (Linux/macOS)
+# Option 1: Install via OpenClaw Skill (recommended)
+clawhub install clawshield
+
+# Option 2: Install standalone (Linux/macOS)
 curl -fsSL https://raw.githubusercontent.com/lennystepn-hue/clawshield/main/scripts/install.sh | bash
 
 # Run your first scan
