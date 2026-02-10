@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/clawshield/clawshield/internal/scanner"
+	"github.com/lennystepn-hue/clawshield/internal/scanner"
 )
 
 // richDescription holds the Problem/Fix/Risk text for display

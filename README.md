@@ -10,7 +10,8 @@
 
 <p align="center">
   <a href="#-quick-start"><img src="https://img.shields.io/badge/install-30_seconds-00ADD8?style=for-the-badge" alt="Install"></a>
-  <img src="https://img.shields.io/badge/Go-1.22+-00ADD8?style=for-the-badge&logo=go" alt="Go">
+  <a href="https://pkg.go.dev/github.com/lennystepn-hue/clawshield"><img src="https://img.shields.io/badge/Go-1.22+-00ADD8?style=for-the-badge&logo=go" alt="Go"></a>
+  <a href="https://goreportcard.com/report/github.com/lennystepn-hue/clawshield"><img src="https://goreportcard.com/badge/github.com/lennystepn-hue/clawshield?style=for-the-badge" alt="Go Report Card"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Checks-50+-green?style=for-the-badge" alt="Checks">
   <img src="https://img.shields.io/badge/Platforms-Linux%20|%20macOS%20|%20Windows-blue?style=for-the-badge" alt="Platforms">

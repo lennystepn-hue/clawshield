@@ -5,10 +5,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/clawshield/clawshield/internal/hardener"
-	"github.com/clawshield/clawshield/internal/scanner"
-	"github.com/clawshield/clawshield/internal/monitor"
-	"github.com/clawshield/clawshield/internal/skills"
+	"github.com/lennystepn-hue/clawshield/internal/hardener"
+	"github.com/lennystepn-hue/clawshield/internal/scanner"
+	"github.com/lennystepn-hue/clawshield/internal/monitor"
+	"github.com/lennystepn-hue/clawshield/internal/skills"
 )
 
 const version = "0.4.0"
