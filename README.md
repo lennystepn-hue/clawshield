@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/scan.svg" alt="ClawShield Security Scan" width="800">
+  <img src="assets/score.svg" alt="ClawShield Security Score" width="600">
 </p>
 
 <h1 align="center">ClawShield 🛡️</h1>
