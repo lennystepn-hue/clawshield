@@ -162,9 +162,19 @@ $ clawshield scan
 
 Interactive hardening — walks you through every fixable issue with **detailed explanations**.
 
-<p align="center">
-  <img src="assets/harden.svg" alt="ClawShield Interactive Hardener" width="700">
-</p>
+```
+  ┌─ ⚠️ Password Policy [1/1]
+  │  Risk: MEDIUM
+  │
+  │  Problem: No password complexity requirements. Users can set weak
+  │           passwords like '123456'.
+  │  Fix:     Installs pam_pwquality and enforces minimum 12-character
+  │           passwords.
+  │  Risk:    Existing passwords aren't affected. Only new password
+  │           changes must meet the policy.
+  │
+  └─ Apply? [y/N]
+```
 
 Each fix shows:
 - **Problem** — What's wrong and why it matters
@@ -191,9 +201,16 @@ $ clawshield harden --auto
 
 Scan skills for **malicious code patterns** — reverse shells, data exfiltration, credential theft, privilege escalation, and 40+ more threat patterns.
 
-<p align="center">
-  <img src="assets/skill-scan.svg" alt="ClawShield Skill Scanner" width="700">
-</p>
+```
+  ━━━ my-community-skill ━━━
+  🔬 Skill Security Scan
+  Path: ./skills/my-community-skill
+
+  ✅ No security issues found
+
+  Verdict: SAFE ✅
+  Findings: 0 total
+```
 
 ```bash
 # Scan a single skill
