@@ -1,0 +1,76 @@
+
+   _____ _               _____ _     _      _     _ 
+  / ____| |             / ____| |   (_)    | |   | |
+ | |    | | __ ___   __| (___ | |__  _  ___| | __| |
+ | |    | |/ _` \ \ /\ / /\___ \| '_ \| |/ _ \ |/ _` |
+ | |____| | (_| |\ V  V / ____) | | | | |  __/ | (_| |
+  \_____|_|\__,_| \_/\_/ |_____/|_| |_|_|\___|_|\__,_|
+                                                v0.1.0
+  🛡️  Security Layer for AI Agents
+
+🔍 Running security scan...
+
+══════════════════════════════════════════════════════
+  🛡️  ClawShield Security Report
+  2026-02-10 16:01:00 | OS: linux
+══════════════════════════════════════════════════════
+
+── NETWORK ──
+  ✅ PASS  Firewall (UFW)
+         Active with 20 rules
+  ❌ FAIL  Exposed Port: 5984 (CouchDB)
+         CouchDB is accessible from the internet on port 5984
+         💡 Fix: Bind CouchDB to 127.0.0.1 or block port 5984 in firewall
+  ℹ️  INFO  Public Services
+         19 services listening on all interfaces (excl. SSH)
+  ✅ PASS  Tailscale VPN
+         Active — private network available
+  ℹ️  INFO  Tailscale IP
+         100.79.101.58
+  ✅ PASS  Docker Containers
+         No containers with publicly exposed ports
+
+── ACCESS ──
+  ❌ FAIL  SSH Password Auth
+         Password authentication is enabled
+         💡 Fix: Set 'PasswordAuthentication no' in /etc/ssh/sshd_config
+  ✅ PASS  SSH Root Login
+         Root login restricted to key-only
+  ⚠️  WARN  SSH Port
+         Running on default port 22
+         💡 Fix: Consider changing to a non-standard port
+  ✅ PASS  Fail2Ban
+         Active (4 IPs currently banned)
+
+── PROCESS ──
+  ⚠️  WARN  Running as Root
+         OpenClaw is running as root (required but high-risk)
+         💡 Fix: ClawShield monitors root-level operations for anomalies
+
+── SYSTEM ──
+  ✅ PASS  Automatic Security Updates
+         Enabled
+  ⚠️  WARN  Kernel Version
+         Running 6.8.0-90-generic (newer kernel available, reboot needed)
+         💡 Fix: Schedule a reboot to apply kernel update
+
+── FILES ──
+  ✅ PASS  File Permissions: /root/.ssh/authorized_keys
+         Permissions 600 ✓
+  ✅ PASS  File Permissions: /etc/shadow
+         Permissions 600 ✓
+
+── AGENT ──
+  ℹ️  INFO  OpenClaw Process
+         OpenClaw is running
+  ⚠️  WARN  API Keys in Environment
+         3 API keys/secrets found in environment variables
+         💡 Fix: Consider using a secrets manager (1Password CLI, Vault, etc.)
+
+══════════════════════════════════════════════════════
+  Security Score: B 71/100
+  ✅ 8 passed  ⚠️  4 warnings  ❌ 2 failed
+══════════════════════════════════════════════════════
+
+  🔴 Run 'clawshield harden --auto' to fix critical issues
+
