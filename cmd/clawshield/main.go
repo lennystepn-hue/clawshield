@@ -14,12 +14,11 @@ import (
 const version = "0.1.0"
 
 const banner = `
-   _____ _               _____ _     _      _     _ 
-  / ____| |             / ____| |   (_)    | |   | |
- | |    | | __ ___   __| (___ | |__  _  ___| | __| |
- | |    | |/ _` + "`" + ` \ \ /\ / /\___ \| '_ \| |/ _ \ |/ _` + "`" + ` |
- | |____| | (_| |\ V  V / ____) | | | | |  __/ | (_| |
-  \_____|_|\__,_| \_/\_/ |_____/|_| |_|_|\___|_|\__,_|
+    ________               _____ __    _      __    __
+   / ____/ /___ __      __/ ___// /_  (_)__  / /___/ /
+  / /   / / __ ` + "`" + `/ | /| / /\__ \/ __ \/ / _ \/ / __  /
+ / /___/ / /_/ /| |/ |/ /___/ / / / / /  __/ / /_/ /
+ \____/_/\__,_/ |__/|__//____/_/ /_/_/\___/_/\__,_/
                                                 v%s
   🛡️  Security Layer for AI Agents
 `
@@ -54,11 +53,35 @@ func main() {
 
 	case "skill-scan":
 		if len(os.Args) < 3 {
-			fmt.Println("Usage: clawshield skill-scan <skill-path-or-name>")
-			os.Exit(1)
+			// Auto-scan all skills in common directories
+			skillsDirs := []string{"/root/workspace/skills", "./skills", os.Getenv("HOME") + "/workspace/skills"}
+			scanned := 0
+			for _, dir := range skillsDirs {
+				entries, err := os.ReadDir(dir)
+				if err != nil {
+					continue
+				}
+				fmt.Printf("\n🔬 Scanning all skills in %s\n\n", dir)
+				for _, e := range entries {
+					if e.IsDir() {
+						path := dir + "/" + e.Name()
+						fmt.Printf("━━━ %s ━━━\n", e.Name())
+						skills.ScanSkill(path)
+						fmt.Println()
+						scanned++
+					}
+				}
+				break // Use first found directory
+			}
+			if scanned == 0 {
+				fmt.Println("No skills directory found. Usage: clawshield skill-scan <skill-path-or-name>")
+				os.Exit(1)
+			}
+			fmt.Printf("✅ Scanned %d skills\n", scanned)
+		} else {
+			fmt.Printf("\n🔬 Scanning skill: %s\n\n", os.Args[2])
+			skills.ScanSkill(os.Args[2])
 		}
-		fmt.Printf("\n🔬 Scanning skill: %s\n\n", os.Args[2])
-		skills.ScanSkill(os.Args[2])
 
 	case "status":
 		fmt.Println("\n📊 Security Status\n")
