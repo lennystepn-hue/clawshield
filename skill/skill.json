@@ -1,0 +1,11 @@
+{
+  "name": "clawshield",
+  "version": "1.0.0",
+  "description": "Security Layer for AI Agents — scan, harden, monitor, and audit skills for malicious code",
+  "author": "ClawShield",
+  "homepage": "https://github.com/lennystepn-hue/clawshield",
+  "requires": {
+    "bins": ["clawshield"]
+  },
+  "install": "./install.sh"
+}
