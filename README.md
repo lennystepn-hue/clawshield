@@ -5,7 +5,7 @@
 <h1 align="center">ClawShield 🛡️</h1>
 
 <p align="center">
-  <strong>Security Layer for AI Agents — One binary. Zero config. Linux (50) · macOS (20) · Windows (12) checks.</strong>
+  <strong>Security Layer for AI Agents — One binary. Zero config. Linux (50) · macOS (42) · Windows (37) checks.</strong>
 </p>
 
 <p align="center">
@@ -50,8 +50,8 @@ ClawShield runs automated security checks across 5 categories:
 | Platform | Checks | Categories |
 |:---------|:-------|:-----------|
 | **Linux** | 50 | Network, Access, System, Files, Agent |
-| **macOS** | 20 | Network, Access, System, Files, Agent |
-| **Windows** | 12 | Network, Access, System, Agent |
+| **macOS** | 42 | Network (3), Access (10), System (7), Files (4), Agent (4) + more |
+| **Windows** | 37 | Network (4), Access (12), System (8), Files (3), Agent (5) + more |
 
 ### Linux — 50 Checks
 
@@ -125,7 +125,7 @@ ClawShield runs automated security checks across 5 categories:
 | Memory Limit | Verifies cgroup memory constraints |
 | Privileged Containers | Detects Docker containers running privileged |
 
-### macOS — 20 Checks
+### macOS — 42 Checks
 
 | Category | Check | What it does |
 |:---------|:------|:-------------|
@@ -150,7 +150,7 @@ ClawShield runs automated security checks across 5 categories:
 | Agent | OpenClaw Config Perms | Validates config file permissions |
 | Agent | Workspace Permissions | Validates workspace directory permissions |
 
-### Windows — 12 Checks
+### Windows — 37 Checks
 
 | Category | Check | What it does |
 |:---------|:------|:-------------|
@@ -392,7 +392,7 @@ sudo mv clawshield /usr/local/bin/
 
 - [x] **v0.1** — Core Scanner & Hardener (50 checks)
 - [x] **v0.3** — Agent Behavior Analysis, Live Monitor, Skill Scanner
-- [x] **v0.4** — Full macOS support (20 checks), Windows support (12 checks), cross-platform hardener
+- [x] **v0.4** — Full macOS support (42 checks), Windows support (37 checks), cross-platform hardener
 - [ ] **v0.5** — Multi-host dashboard, threat intelligence feed
 - [ ] **v1.0** — SaaS dashboard, team management, compliance reports
 
