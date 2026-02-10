@@ -1,0 +1,876 @@
+<svg class="rich-terminal" viewBox="0 0 1482 5027.599999999999" xmlns="http://www.w3.org/2000/svg">
+    <!-- Generated with Rich https://www.textualize.io -->
+    <style>
+
+    @font-face {
+        font-family: "Fira Code";
+        src: local("FiraCode-Regular"),
+                url("https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/woff2/FiraCode-Regular.woff2") format("woff2"),
+                url("https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/woff/FiraCode-Regular.woff") format("woff");
+        font-style: normal;
+        font-weight: 400;
+    }
+    @font-face {
+        font-family: "Fira Code";
+        src: local("FiraCode-Bold"),
+                url("https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/woff2/FiraCode-Bold.woff2") format("woff2"),
+                url("https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/woff/FiraCode-Bold.woff") format("woff");
+        font-style: bold;
+        font-weight: 700;
+    }
+
+    .terminal-3305119844-matrix {
+        font-family: Fira Code, monospace;
+        font-size: 20px;
+        line-height: 24.4px;
+        font-variant-east-asian: full-width;
+    }
+
+    .terminal-3305119844-title {
+        font-size: 18px;
+        font-weight: bold;
+        font-family: arial;
+    }
+
+    .terminal-3305119844-r1 { fill: #abb2bf }
+.terminal-3305119844-r2 { fill: #42b3c2;font-weight: bold }
+.terminal-3305119844-r3 { fill: #abb2bf;font-weight: bold }
+.terminal-3305119844-r4 { fill: #767c87 }
+.terminal-3305119844-r5 { fill: #8cc265 }
+.terminal-3305119844-r6 { fill: #e05561;font-weight: bold }
+.terminal-3305119844-r7 { fill: #d18f52 }
+    </style>
+
+    <defs>
+    <clipPath id="terminal-3305119844-clip-terminal">
+      <rect x="0" y="0" width="1463.0" height="4976.599999999999" />
+    </clipPath>
+    <clipPath id="terminal-3305119844-line-0">
+    <rect x="0" y="1.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-1">
+    <rect x="0" y="25.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-2">
+    <rect x="0" y="50.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-3">
+    <rect x="0" y="74.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-4">
+    <rect x="0" y="99.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-5">
+    <rect x="0" y="123.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-6">
+    <rect x="0" y="147.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-7">
+    <rect x="0" y="172.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-8">
+    <rect x="0" y="196.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-9">
+    <rect x="0" y="221.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-10">
+    <rect x="0" y="245.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-11">
+    <rect x="0" y="269.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-12">
+    <rect x="0" y="294.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-13">
+    <rect x="0" y="318.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-14">
+    <rect x="0" y="343.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-15">
+    <rect x="0" y="367.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-16">
+    <rect x="0" y="391.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-17">
+    <rect x="0" y="416.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-18">
+    <rect x="0" y="440.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-19">
+    <rect x="0" y="465.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-20">
+    <rect x="0" y="489.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-21">
+    <rect x="0" y="513.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-22">
+    <rect x="0" y="538.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-23">
+    <rect x="0" y="562.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-24">
+    <rect x="0" y="587.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-25">
+    <rect x="0" y="611.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-26">
+    <rect x="0" y="635.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-27">
+    <rect x="0" y="660.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-28">
+    <rect x="0" y="684.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-29">
+    <rect x="0" y="709.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-30">
+    <rect x="0" y="733.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-31">
+    <rect x="0" y="757.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-32">
+    <rect x="0" y="782.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-33">
+    <rect x="0" y="806.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-34">
+    <rect x="0" y="831.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-35">
+    <rect x="0" y="855.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-36">
+    <rect x="0" y="879.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-37">
+    <rect x="0" y="904.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-38">
+    <rect x="0" y="928.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-39">
+    <rect x="0" y="953.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-40">
+    <rect x="0" y="977.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-41">
+    <rect x="0" y="1001.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-42">
+    <rect x="0" y="1026.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-43">
+    <rect x="0" y="1050.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-44">
+    <rect x="0" y="1075.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-45">
+    <rect x="0" y="1099.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-46">
+    <rect x="0" y="1123.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-47">
+    <rect x="0" y="1148.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-48">
+    <rect x="0" y="1172.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-49">
+    <rect x="0" y="1197.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-50">
+    <rect x="0" y="1221.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-51">
+    <rect x="0" y="1245.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-52">
+    <rect x="0" y="1270.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-53">
+    <rect x="0" y="1294.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-54">
+    <rect x="0" y="1319.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-55">
+    <rect x="0" y="1343.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-56">
+    <rect x="0" y="1367.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-57">
+    <rect x="0" y="1392.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-58">
+    <rect x="0" y="1416.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-59">
+    <rect x="0" y="1441.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-60">
+    <rect x="0" y="1465.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-61">
+    <rect x="0" y="1489.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-62">
+    <rect x="0" y="1514.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-63">
+    <rect x="0" y="1538.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-64">
+    <rect x="0" y="1563.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-65">
+    <rect x="0" y="1587.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-66">
+    <rect x="0" y="1611.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-67">
+    <rect x="0" y="1636.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-68">
+    <rect x="0" y="1660.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-69">
+    <rect x="0" y="1685.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-70">
+    <rect x="0" y="1709.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-71">
+    <rect x="0" y="1733.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-72">
+    <rect x="0" y="1758.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-73">
+    <rect x="0" y="1782.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-74">
+    <rect x="0" y="1807.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-75">
+    <rect x="0" y="1831.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-76">
+    <rect x="0" y="1855.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-77">
+    <rect x="0" y="1880.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-78">
+    <rect x="0" y="1904.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-79">
+    <rect x="0" y="1929.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-80">
+    <rect x="0" y="1953.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-81">
+    <rect x="0" y="1977.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-82">
+    <rect x="0" y="2002.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-83">
+    <rect x="0" y="2026.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-84">
+    <rect x="0" y="2051.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-85">
+    <rect x="0" y="2075.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-86">
+    <rect x="0" y="2099.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-87">
+    <rect x="0" y="2124.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-88">
+    <rect x="0" y="2148.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-89">
+    <rect x="0" y="2173.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-90">
+    <rect x="0" y="2197.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-91">
+    <rect x="0" y="2221.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-92">
+    <rect x="0" y="2246.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-93">
+    <rect x="0" y="2270.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-94">
+    <rect x="0" y="2295.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-95">
+    <rect x="0" y="2319.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-96">
+    <rect x="0" y="2343.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-97">
+    <rect x="0" y="2368.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-98">
+    <rect x="0" y="2392.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-99">
+    <rect x="0" y="2417.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-100">
+    <rect x="0" y="2441.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-101">
+    <rect x="0" y="2465.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-102">
+    <rect x="0" y="2490.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-103">
+    <rect x="0" y="2514.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-104">
+    <rect x="0" y="2539.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-105">
+    <rect x="0" y="2563.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-106">
+    <rect x="0" y="2587.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-107">
+    <rect x="0" y="2612.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-108">
+    <rect x="0" y="2636.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-109">
+    <rect x="0" y="2661.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-110">
+    <rect x="0" y="2685.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-111">
+    <rect x="0" y="2709.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-112">
+    <rect x="0" y="2734.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-113">
+    <rect x="0" y="2758.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-114">
+    <rect x="0" y="2783.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-115">
+    <rect x="0" y="2807.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-116">
+    <rect x="0" y="2831.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-117">
+    <rect x="0" y="2856.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-118">
+    <rect x="0" y="2880.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-119">
+    <rect x="0" y="2905.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-120">
+    <rect x="0" y="2929.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-121">
+    <rect x="0" y="2953.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-122">
+    <rect x="0" y="2978.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-123">
+    <rect x="0" y="3002.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-124">
+    <rect x="0" y="3027.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-125">
+    <rect x="0" y="3051.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-126">
+    <rect x="0" y="3075.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-127">
+    <rect x="0" y="3100.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-128">
+    <rect x="0" y="3124.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-129">
+    <rect x="0" y="3149.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-130">
+    <rect x="0" y="3173.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-131">
+    <rect x="0" y="3197.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-132">
+    <rect x="0" y="3222.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-133">
+    <rect x="0" y="3246.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-134">
+    <rect x="0" y="3271.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-135">
+    <rect x="0" y="3295.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-136">
+    <rect x="0" y="3319.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-137">
+    <rect x="0" y="3344.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-138">
+    <rect x="0" y="3368.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-139">
+    <rect x="0" y="3393.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-140">
+    <rect x="0" y="3417.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-141">
+    <rect x="0" y="3441.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-142">
+    <rect x="0" y="3466.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-143">
+    <rect x="0" y="3490.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-144">
+    <rect x="0" y="3515.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-145">
+    <rect x="0" y="3539.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-146">
+    <rect x="0" y="3563.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-147">
+    <rect x="0" y="3588.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-148">
+    <rect x="0" y="3612.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-149">
+    <rect x="0" y="3637.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-150">
+    <rect x="0" y="3661.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-151">
+    <rect x="0" y="3685.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-152">
+    <rect x="0" y="3710.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-153">
+    <rect x="0" y="3734.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-154">
+    <rect x="0" y="3759.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-155">
+    <rect x="0" y="3783.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-156">
+    <rect x="0" y="3807.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-157">
+    <rect x="0" y="3832.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-158">
+    <rect x="0" y="3856.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-159">
+    <rect x="0" y="3881.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-160">
+    <rect x="0" y="3905.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-161">
+    <rect x="0" y="3929.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-162">
+    <rect x="0" y="3954.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-163">
+    <rect x="0" y="3978.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-164">
+    <rect x="0" y="4003.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-165">
+    <rect x="0" y="4027.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-166">
+    <rect x="0" y="4051.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-167">
+    <rect x="0" y="4076.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-168">
+    <rect x="0" y="4100.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-169">
+    <rect x="0" y="4125.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-170">
+    <rect x="0" y="4149.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-171">
+    <rect x="0" y="4173.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-172">
+    <rect x="0" y="4198.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-173">
+    <rect x="0" y="4222.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-174">
+    <rect x="0" y="4247.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-175">
+    <rect x="0" y="4271.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-176">
+    <rect x="0" y="4295.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-177">
+    <rect x="0" y="4320.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-178">
+    <rect x="0" y="4344.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-179">
+    <rect x="0" y="4369.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-180">
+    <rect x="0" y="4393.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-181">
+    <rect x="0" y="4417.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-182">
+    <rect x="0" y="4442.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-183">
+    <rect x="0" y="4466.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-184">
+    <rect x="0" y="4491.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-185">
+    <rect x="0" y="4515.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-186">
+    <rect x="0" y="4539.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-187">
+    <rect x="0" y="4564.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-188">
+    <rect x="0" y="4588.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-189">
+    <rect x="0" y="4613.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-190">
+    <rect x="0" y="4637.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-191">
+    <rect x="0" y="4661.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-192">
+    <rect x="0" y="4686.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-193">
+    <rect x="0" y="4710.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-194">
+    <rect x="0" y="4735.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-195">
+    <rect x="0" y="4759.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-196">
+    <rect x="0" y="4783.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-197">
+    <rect x="0" y="4808.3" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-198">
+    <rect x="0" y="4832.7" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-199">
+    <rect x="0" y="4857.1" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-200">
+    <rect x="0" y="4881.5" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-201">
+    <rect x="0" y="4905.9" width="1464" height="24.65"/>
+            </clipPath>
+<clipPath id="terminal-3305119844-line-202">
+    <rect x="0" y="4930.3" width="1464" height="24.65"/>
+            </clipPath>
+    </defs>
+
+    <rect fill="#282c34" stroke="rgba(255,255,255,0.35)" stroke-width="1" x="1" y="1" width="1480" height="5025.6" rx="8"/><text class="terminal-3305119844-title" fill="#abb2bf" text-anchor="middle" x="740" y="27">Skill&#160;Scanner&#160;—&#160;All&#160;15&#160;Skills</text>
+            <g transform="translate(26,22)">
+            <circle cx="0" cy="0" r="7" fill="#ff5f57"/>
+            <circle cx="22" cy="0" r="7" fill="#febc2e"/>
+            <circle cx="44" cy="0" r="7" fill="#28c840"/>
+            </g>
+        
+    <g transform="translate(9, 41)" clip-path="url(#terminal-3305119844-clip-terminal)">
+    
+    <g class="terminal-3305119844-matrix">
+    <text class="terminal-3305119844-r1" x="1464" y="20" textLength="12.2" clip-path="url(#terminal-3305119844-line-0)">
+</text><text class="terminal-3305119844-r1" x="0" y="44.4" textLength="658.8" clip-path="url(#terminal-3305119844-line-1)">&#160;&#160;&#160;&#160;________&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;_____&#160;__&#160;&#160;&#160;&#160;_&#160;&#160;&#160;&#160;&#160;&#160;__&#160;&#160;&#160;&#160;__</text><text class="terminal-3305119844-r1" x="1464" y="44.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-1)">
+</text><text class="terminal-3305119844-r1" x="0" y="68.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-2)">&#160;&#160;&#160;/&#160;____/&#160;/___&#160;__&#160;&#160;&#160;&#160;&#160;&#160;__/&#160;___//&#160;/_&#160;&#160;(_)__&#160;&#160;/&#160;/___/&#160;/</text><text class="terminal-3305119844-r1" x="1464" y="68.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-2)">
+</text><text class="terminal-3305119844-r1" x="0" y="93.2" textLength="646.6" clip-path="url(#terminal-3305119844-line-3)">&#160;&#160;/&#160;/&#160;&#160;&#160;/&#160;/&#160;__&#160;`/&#160;|&#160;/|&#160;/&#160;/\__&#160;\/&#160;__&#160;\/&#160;/&#160;_&#160;\/&#160;/&#160;__&#160;&#160;/</text><text class="terminal-3305119844-r1" x="1464" y="93.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-3)">
+</text><text class="terminal-3305119844-r1" x="0" y="117.6" textLength="634.4" clip-path="url(#terminal-3305119844-line-4)">&#160;/&#160;/___/&#160;/&#160;/_/&#160;/|&#160;|/&#160;|/&#160;/___/&#160;/&#160;/&#160;/&#160;/&#160;/&#160;&#160;__/&#160;/&#160;/_/&#160;/</text><text class="terminal-3305119844-r1" x="1464" y="117.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-4)">
+</text><text class="terminal-3305119844-r1" x="0" y="142" textLength="622.2" clip-path="url(#terminal-3305119844-line-5)">&#160;\____/_/\__,_/&#160;|__/|__//____/_/&#160;/_/_/\___/_/\__,_/</text><text class="terminal-3305119844-r1" x="1464" y="142" textLength="12.2" clip-path="url(#terminal-3305119844-line-5)">
+</text><text class="terminal-3305119844-r1" x="0" y="166.4" textLength="658.8" clip-path="url(#terminal-3305119844-line-6)">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;v0.1.0</text><text class="terminal-3305119844-r1" x="1464" y="166.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-6)">
+</text><text class="terminal-3305119844-r1" x="0" y="190.8" textLength="414.8" clip-path="url(#terminal-3305119844-line-7)">&#160;&#160;🛡️&#160;&#160;Security&#160;Layer&#160;for&#160;AI&#160;Agents</text><text class="terminal-3305119844-r1" x="1464" y="190.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-7)">
+</text><text class="terminal-3305119844-r1" x="1464" y="215.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-8)">
+</text><text class="terminal-3305119844-r1" x="0" y="239.6" textLength="573.4" clip-path="url(#terminal-3305119844-line-9)">🔬&#160;Scanning&#160;all&#160;skills&#160;in&#160;/root/workspace/skills</text><text class="terminal-3305119844-r1" x="1464" y="239.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-9)">
+</text><text class="terminal-3305119844-r1" x="1464" y="264" textLength="12.2" clip-path="url(#terminal-3305119844-line-10)">
+</text><text class="terminal-3305119844-r1" x="0" y="288.4" textLength="207.4" clip-path="url(#terminal-3305119844-line-11)">━━━&#160;1password&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="288.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-11)">
+</text><text class="terminal-3305119844-r2" x="0" y="312.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-12)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="312.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-12)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="337.2" textLength="256.2" clip-path="url(#terminal-3305119844-line-13)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="337.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-13)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="361.6" textLength="463.6" clip-path="url(#terminal-3305119844-line-14)">Path:&#160;/root/workspace/skills/1password</text><text class="terminal-3305119844-r1" x="1464" y="361.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-14)">
+</text><text class="terminal-3305119844-r2" x="0" y="386" textLength="658.8" clip-path="url(#terminal-3305119844-line-15)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="386" textLength="12.2" clip-path="url(#terminal-3305119844-line-15)">
+</text><text class="terminal-3305119844-r1" x="1464" y="410.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-16)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="434.8" textLength="317.2" clip-path="url(#terminal-3305119844-line-17)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="434.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-17)">
+</text><text class="terminal-3305119844-r1" x="1464" y="459.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-18)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="483.6" textLength="183" clip-path="url(#terminal-3305119844-line-19)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="483.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-19)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="508" textLength="207.4" clip-path="url(#terminal-3305119844-line-20)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="508" textLength="12.2" clip-path="url(#terminal-3305119844-line-20)">
+</text><text class="terminal-3305119844-r1" x="1464" y="532.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-21)">
+</text><text class="terminal-3305119844-r1" x="1464" y="556.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-22)">
+</text><text class="terminal-3305119844-r1" x="0" y="581.2" textLength="256.2" clip-path="url(#terminal-3305119844-line-23)">━━━&#160;ai-dockerfile&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="581.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-23)">
+</text><text class="terminal-3305119844-r2" x="0" y="605.6" textLength="658.8" clip-path="url(#terminal-3305119844-line-24)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="605.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-24)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="630" textLength="256.2" clip-path="url(#terminal-3305119844-line-25)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="630" textLength="12.2" clip-path="url(#terminal-3305119844-line-25)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="654.4" textLength="512.4" clip-path="url(#terminal-3305119844-line-26)">Path:&#160;/root/workspace/skills/ai-dockerfile</text><text class="terminal-3305119844-r1" x="1464" y="654.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-26)">
+</text><text class="terminal-3305119844-r2" x="0" y="678.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-27)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="678.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-27)">
+</text><text class="terminal-3305119844-r1" x="1464" y="703.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-28)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="727.6" textLength="317.2" clip-path="url(#terminal-3305119844-line-29)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="727.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-29)">
+</text><text class="terminal-3305119844-r1" x="1464" y="752" textLength="12.2" clip-path="url(#terminal-3305119844-line-30)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="776.4" textLength="183" clip-path="url(#terminal-3305119844-line-31)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="776.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-31)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="800.8" textLength="207.4" clip-path="url(#terminal-3305119844-line-32)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="800.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-32)">
+</text><text class="terminal-3305119844-r1" x="1464" y="825.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-33)">
+</text><text class="terminal-3305119844-r1" x="1464" y="849.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-34)">
+</text><text class="terminal-3305119844-r1" x="0" y="874" textLength="231.8" clip-path="url(#terminal-3305119844-line-35)">━━━&#160;claude-team&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="874" textLength="12.2" clip-path="url(#terminal-3305119844-line-35)">
+</text><text class="terminal-3305119844-r2" x="0" y="898.4" textLength="658.8" clip-path="url(#terminal-3305119844-line-36)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="898.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-36)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="922.8" textLength="256.2" clip-path="url(#terminal-3305119844-line-37)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="922.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-37)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="947.2" textLength="488" clip-path="url(#terminal-3305119844-line-38)">Path:&#160;/root/workspace/skills/claude-team</text><text class="terminal-3305119844-r1" x="1464" y="947.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-38)">
+</text><text class="terminal-3305119844-r2" x="0" y="971.6" textLength="658.8" clip-path="url(#terminal-3305119844-line-39)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="971.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-39)">
+</text><text class="terminal-3305119844-r1" x="1464" y="996" textLength="12.2" clip-path="url(#terminal-3305119844-line-40)">
+</text><text class="terminal-3305119844-r6" x="24.4" y="1020.4" textLength="170.8" clip-path="url(#terminal-3305119844-line-41)">🚨&#160;CRITICAL&#160;(1)</text><text class="terminal-3305119844-r1" x="1464" y="1020.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-41)">
+</text><text class="terminal-3305119844-r1" x="0" y="1044.8" textLength="988.2" clip-path="url(#terminal-3305119844-line-42)">&#160;&#160;&#160;&#160;assets/setup.sh:13&#160;—&#160;Remote&#160;code&#160;execution:&#160;downloading&#160;and&#160;executing&#160;scripts</text><text class="terminal-3305119844-r1" x="1464" y="1044.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-42)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1069.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-43)">
+</text><text class="terminal-3305119844-r7" x="24.4" y="1093.6" textLength="158.6" clip-path="url(#terminal-3305119844-line-44)">⚠️&#160;MEDIUM&#160;(4)</text><text class="terminal-3305119844-r1" x="1464" y="1093.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-44)">
+</text><text class="terminal-3305119844-r1" x="0" y="1118" textLength="939.4" clip-path="url(#terminal-3305119844-line-45)">&#160;&#160;&#160;&#160;SKILL.md:244&#160;—&#160;Direct&#160;IP&#160;address&#160;URL&#160;(no&#160;domain)&#160;—&#160;may&#160;indicate&#160;C2&#160;server</text><text class="terminal-3305119844-r1" x="1464" y="1118" textLength="12.2" clip-path="url(#terminal-3305119844-line-45)">
+</text><text class="terminal-3305119844-r1" x="0" y="1142.4" textLength="939.4" clip-path="url(#terminal-3305119844-line-46)">&#160;&#160;&#160;&#160;SKILL.md:267&#160;—&#160;Direct&#160;IP&#160;address&#160;URL&#160;(no&#160;domain)&#160;—&#160;may&#160;indicate&#160;C2&#160;server</text><text class="terminal-3305119844-r1" x="1464" y="1142.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-46)">
+</text><text class="terminal-3305119844-r1" x="0" y="1166.8" textLength="768.6" clip-path="url(#terminal-3305119844-line-47)">&#160;&#160;&#160;&#160;SKILL.md:426&#160;—&#160;Crontab&#160;modification&#160;—&#160;check&#160;for&#160;persistence</text><text class="terminal-3305119844-r1" x="1464" y="1166.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-47)">
+</text><text class="terminal-3305119844-r1" x="0" y="1191.2" textLength="1012.6" clip-path="url(#terminal-3305119844-line-48)">&#160;&#160;&#160;&#160;assets/setup.sh:61&#160;—&#160;Direct&#160;IP&#160;address&#160;URL&#160;(no&#160;domain)&#160;—&#160;may&#160;indicate&#160;C2&#160;server</text><text class="terminal-3305119844-r1" x="1464" y="1191.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-48)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1215.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-49)">
+</text><text class="terminal-3305119844-r6" x="24.4" y="1240" textLength="244" clip-path="url(#terminal-3305119844-line-50)">Verdict:&#160;DANGEROUS&#160;❌</text><text class="terminal-3305119844-r1" x="1464" y="1240" textLength="12.2" clip-path="url(#terminal-3305119844-line-50)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="1264.4" textLength="207.4" clip-path="url(#terminal-3305119844-line-51)">Findings:&#160;5&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="1264.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-51)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1288.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-52)">
+</text><text class="terminal-3305119844-r6" x="24.4" y="1313.2" textLength="756.4" clip-path="url(#terminal-3305119844-line-53)">⛔&#160;DO&#160;NOT&#160;INSTALL&#160;THIS&#160;SKILL&#160;—&#160;critical&#160;security&#160;risks&#160;detected</text><text class="terminal-3305119844-r1" x="1464" y="1313.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-53)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1337.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-54)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1362" textLength="12.2" clip-path="url(#terminal-3305119844-line-55)">
+</text><text class="terminal-3305119844-r1" x="0" y="1386.4" textLength="219.6" clip-path="url(#terminal-3305119844-line-56)">━━━&#160;clawshield&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="1386.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-56)">
+</text><text class="terminal-3305119844-r2" x="0" y="1410.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-57)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="1410.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-57)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="1435.2" textLength="256.2" clip-path="url(#terminal-3305119844-line-58)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="1435.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-58)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="1459.6" textLength="475.8" clip-path="url(#terminal-3305119844-line-59)">Path:&#160;/root/workspace/skills/clawshield</text><text class="terminal-3305119844-r1" x="1464" y="1459.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-59)">
+</text><text class="terminal-3305119844-r2" x="0" y="1484" textLength="658.8" clip-path="url(#terminal-3305119844-line-60)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="1484" textLength="12.2" clip-path="url(#terminal-3305119844-line-60)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1508.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-61)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="1532.8" textLength="317.2" clip-path="url(#terminal-3305119844-line-62)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="1532.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-62)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1557.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-63)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="1581.6" textLength="183" clip-path="url(#terminal-3305119844-line-64)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="1581.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-64)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="1606" textLength="207.4" clip-path="url(#terminal-3305119844-line-65)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="1606" textLength="12.2" clip-path="url(#terminal-3305119844-line-65)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1630.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-66)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1654.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-67)">
+</text><text class="terminal-3305119844-r1" x="0" y="1679.2" textLength="244" clip-path="url(#terminal-3305119844-line-68)">━━━&#160;computer-use&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="1679.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-68)">
+</text><text class="terminal-3305119844-r2" x="0" y="1703.6" textLength="658.8" clip-path="url(#terminal-3305119844-line-69)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="1703.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-69)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="1728" textLength="256.2" clip-path="url(#terminal-3305119844-line-70)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="1728" textLength="12.2" clip-path="url(#terminal-3305119844-line-70)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="1752.4" textLength="500.2" clip-path="url(#terminal-3305119844-line-71)">Path:&#160;/root/workspace/skills/computer-use</text><text class="terminal-3305119844-r1" x="1464" y="1752.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-71)">
+</text><text class="terminal-3305119844-r2" x="0" y="1776.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-72)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="1776.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-72)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1801.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-73)">
+</text><text class="terminal-3305119844-r7" x="24.4" y="1825.6" textLength="158.6" clip-path="url(#terminal-3305119844-line-74)">⚠️&#160;MEDIUM&#160;(3)</text><text class="terminal-3305119844-r1" x="1464" y="1825.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-74)">
+</text><text class="terminal-3305119844-r1" x="0" y="1850" textLength="817.4" clip-path="url(#terminal-3305119844-line-75)">&#160;&#160;&#160;&#160;SKILL.md:207&#160;—&#160;Systemd&#160;service&#160;creation&#160;—&#160;check&#160;for&#160;persistence</text><text class="terminal-3305119844-r1" x="1464" y="1850" textLength="12.2" clip-path="url(#terminal-3305119844-line-75)">
+</text><text class="terminal-3305119844-r1" x="0" y="1874.4" textLength="1000.4" clip-path="url(#terminal-3305119844-line-76)">&#160;&#160;&#160;&#160;scripts/setup-kde-vnc.sh:46&#160;—&#160;Systemd&#160;service&#160;creation&#160;—&#160;check&#160;for&#160;persistence</text><text class="terminal-3305119844-r1" x="1464" y="1874.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-76)">
+</text><text class="terminal-3305119844-r1" x="0" y="1898.8" textLength="951.6" clip-path="url(#terminal-3305119844-line-77)">&#160;&#160;&#160;&#160;scripts/setup-vnc.sh:33&#160;—&#160;Systemd&#160;service&#160;creation&#160;—&#160;check&#160;for&#160;persistence</text><text class="terminal-3305119844-r1" x="1464" y="1898.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-77)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1923.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-78)">
+</text><text class="terminal-3305119844-r7" x="24.4" y="1947.6" textLength="207.4" clip-path="url(#terminal-3305119844-line-79)">Verdict:&#160;REVIEW&#160;🔍</text><text class="terminal-3305119844-r1" x="1464" y="1947.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-79)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="1972" textLength="207.4" clip-path="url(#terminal-3305119844-line-80)">Findings:&#160;3&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="1972" textLength="12.2" clip-path="url(#terminal-3305119844-line-80)">
+</text><text class="terminal-3305119844-r1" x="1464" y="1996.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-81)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2020.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-82)">
+</text><text class="terminal-3305119844-r1" x="0" y="2045.2" textLength="195.2" clip-path="url(#terminal-3305119844-line-83)">━━━&#160;database&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="2045.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-83)">
+</text><text class="terminal-3305119844-r2" x="0" y="2069.6" textLength="658.8" clip-path="url(#terminal-3305119844-line-84)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="2069.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-84)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="2094" textLength="256.2" clip-path="url(#terminal-3305119844-line-85)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="2094" textLength="12.2" clip-path="url(#terminal-3305119844-line-85)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="2118.4" textLength="451.4" clip-path="url(#terminal-3305119844-line-86)">Path:&#160;/root/workspace/skills/database</text><text class="terminal-3305119844-r1" x="1464" y="2118.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-86)">
+</text><text class="terminal-3305119844-r2" x="0" y="2142.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-87)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="2142.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-87)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2167.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-88)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="2191.6" textLength="317.2" clip-path="url(#terminal-3305119844-line-89)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="2191.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-89)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2216" textLength="12.2" clip-path="url(#terminal-3305119844-line-90)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="2240.4" textLength="183" clip-path="url(#terminal-3305119844-line-91)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="2240.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-91)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="2264.8" textLength="207.4" clip-path="url(#terminal-3305119844-line-92)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="2264.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-92)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2289.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-93)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2313.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-94)">
+</text><text class="terminal-3305119844-r1" x="0" y="2338" textLength="305" clip-path="url(#terminal-3305119844-line-95)">━━━&#160;docker-essentials&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="2338" textLength="12.2" clip-path="url(#terminal-3305119844-line-95)">
+</text><text class="terminal-3305119844-r2" x="0" y="2362.4" textLength="658.8" clip-path="url(#terminal-3305119844-line-96)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="2362.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-96)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="2386.8" textLength="256.2" clip-path="url(#terminal-3305119844-line-97)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="2386.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-97)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="2411.2" textLength="561.2" clip-path="url(#terminal-3305119844-line-98)">Path:&#160;/root/workspace/skills/docker-essentials</text><text class="terminal-3305119844-r1" x="1464" y="2411.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-98)">
+</text><text class="terminal-3305119844-r2" x="0" y="2435.6" textLength="658.8" clip-path="url(#terminal-3305119844-line-99)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="2435.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-99)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2460" textLength="12.2" clip-path="url(#terminal-3305119844-line-100)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="2484.4" textLength="317.2" clip-path="url(#terminal-3305119844-line-101)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="2484.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-101)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2508.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-102)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="2533.2" textLength="183" clip-path="url(#terminal-3305119844-line-103)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="2533.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-103)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="2557.6" textLength="207.4" clip-path="url(#terminal-3305119844-line-104)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="2557.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-104)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2582" textLength="12.2" clip-path="url(#terminal-3305119844-line-105)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2606.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-106)">
+</text><text class="terminal-3305119844-r1" x="0" y="2630.8" textLength="231.8" clip-path="url(#terminal-3305119844-line-107)">━━━&#160;kde-desktop&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="2630.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-107)">
+</text><text class="terminal-3305119844-r2" x="0" y="2655.2" textLength="658.8" clip-path="url(#terminal-3305119844-line-108)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="2655.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-108)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="2679.6" textLength="256.2" clip-path="url(#terminal-3305119844-line-109)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="2679.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-109)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="2704" textLength="488" clip-path="url(#terminal-3305119844-line-110)">Path:&#160;/root/workspace/skills/kde-desktop</text><text class="terminal-3305119844-r1" x="1464" y="2704" textLength="12.2" clip-path="url(#terminal-3305119844-line-110)">
+</text><text class="terminal-3305119844-r2" x="0" y="2728.4" textLength="658.8" clip-path="url(#terminal-3305119844-line-111)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="2728.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-111)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2752.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-112)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="2777.2" textLength="317.2" clip-path="url(#terminal-3305119844-line-113)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="2777.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-113)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2801.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-114)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="2826" textLength="183" clip-path="url(#terminal-3305119844-line-115)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="2826" textLength="12.2" clip-path="url(#terminal-3305119844-line-115)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="2850.4" textLength="207.4" clip-path="url(#terminal-3305119844-line-116)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="2850.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-116)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2874.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-117)">
+</text><text class="terminal-3305119844-r1" x="1464" y="2899.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-118)">
+</text><text class="terminal-3305119844-r1" x="0" y="2923.6" textLength="378.2" clip-path="url(#terminal-3305119844-line-119)">━━━&#160;n8n-workflow-automation&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="2923.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-119)">
+</text><text class="terminal-3305119844-r2" x="0" y="2948" textLength="658.8" clip-path="url(#terminal-3305119844-line-120)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="2948" textLength="12.2" clip-path="url(#terminal-3305119844-line-120)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="2972.4" textLength="256.2" clip-path="url(#terminal-3305119844-line-121)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="2972.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-121)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="2996.8" textLength="634.4" clip-path="url(#terminal-3305119844-line-122)">Path:&#160;/root/workspace/skills/n8n-workflow-automation</text><text class="terminal-3305119844-r1" x="1464" y="2996.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-122)">
+</text><text class="terminal-3305119844-r2" x="0" y="3021.2" textLength="658.8" clip-path="url(#terminal-3305119844-line-123)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="3021.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-123)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3045.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-124)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3070" textLength="317.2" clip-path="url(#terminal-3305119844-line-125)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="3070" textLength="12.2" clip-path="url(#terminal-3305119844-line-125)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3094.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-126)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3118.8" textLength="183" clip-path="url(#terminal-3305119844-line-127)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="3118.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-127)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="3143.2" textLength="207.4" clip-path="url(#terminal-3305119844-line-128)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="3143.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-128)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3167.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-129)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3192" textLength="12.2" clip-path="url(#terminal-3305119844-line-130)">
+</text><text class="terminal-3305119844-r1" x="0" y="3216.4" textLength="268.4" clip-path="url(#terminal-3305119844-line-131)">━━━&#160;obsidian-daily&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="3216.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-131)">
+</text><text class="terminal-3305119844-r2" x="0" y="3240.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-132)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="3240.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-132)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="3265.2" textLength="256.2" clip-path="url(#terminal-3305119844-line-133)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="3265.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-133)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="3289.6" textLength="524.6" clip-path="url(#terminal-3305119844-line-134)">Path:&#160;/root/workspace/skills/obsidian-daily</text><text class="terminal-3305119844-r1" x="1464" y="3289.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-134)">
+</text><text class="terminal-3305119844-r2" x="0" y="3314" textLength="658.8" clip-path="url(#terminal-3305119844-line-135)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="3314" textLength="12.2" clip-path="url(#terminal-3305119844-line-135)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3338.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-136)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3362.8" textLength="317.2" clip-path="url(#terminal-3305119844-line-137)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="3362.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-137)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3387.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-138)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3411.6" textLength="183" clip-path="url(#terminal-3305119844-line-139)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="3411.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-139)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="3436" textLength="207.4" clip-path="url(#terminal-3305119844-line-140)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="3436" textLength="12.2" clip-path="url(#terminal-3305119844-line-140)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3460.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-141)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3484.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-142)">
+</text><text class="terminal-3305119844-r1" x="0" y="3509.2" textLength="280.6" clip-path="url(#terminal-3305119844-line-143)">━━━&#160;obsidian-direct&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="3509.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-143)">
+</text><text class="terminal-3305119844-r2" x="0" y="3533.6" textLength="658.8" clip-path="url(#terminal-3305119844-line-144)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="3533.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-144)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="3558" textLength="256.2" clip-path="url(#terminal-3305119844-line-145)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="3558" textLength="12.2" clip-path="url(#terminal-3305119844-line-145)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="3582.4" textLength="536.8" clip-path="url(#terminal-3305119844-line-146)">Path:&#160;/root/workspace/skills/obsidian-direct</text><text class="terminal-3305119844-r1" x="1464" y="3582.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-146)">
+</text><text class="terminal-3305119844-r2" x="0" y="3606.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-147)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="3606.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-147)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3631.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-148)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3655.6" textLength="317.2" clip-path="url(#terminal-3305119844-line-149)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="3655.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-149)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3680" textLength="12.2" clip-path="url(#terminal-3305119844-line-150)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3704.4" textLength="183" clip-path="url(#terminal-3305119844-line-151)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="3704.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-151)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="3728.8" textLength="207.4" clip-path="url(#terminal-3305119844-line-152)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="3728.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-152)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3753.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-153)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3777.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-154)">
+</text><text class="terminal-3305119844-r1" x="0" y="3802" textLength="292.8" clip-path="url(#terminal-3305119844-line-155)">━━━&#160;perry-workspaces&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="3802" textLength="12.2" clip-path="url(#terminal-3305119844-line-155)">
+</text><text class="terminal-3305119844-r2" x="0" y="3826.4" textLength="658.8" clip-path="url(#terminal-3305119844-line-156)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="3826.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-156)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="3850.8" textLength="256.2" clip-path="url(#terminal-3305119844-line-157)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="3850.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-157)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="3875.2" textLength="549" clip-path="url(#terminal-3305119844-line-158)">Path:&#160;/root/workspace/skills/perry-workspaces</text><text class="terminal-3305119844-r1" x="1464" y="3875.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-158)">
+</text><text class="terminal-3305119844-r2" x="0" y="3899.6" textLength="658.8" clip-path="url(#terminal-3305119844-line-159)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="3899.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-159)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3924" textLength="12.2" clip-path="url(#terminal-3305119844-line-160)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3948.4" textLength="317.2" clip-path="url(#terminal-3305119844-line-161)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="3948.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-161)">
+</text><text class="terminal-3305119844-r1" x="1464" y="3972.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-162)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="3997.2" textLength="183" clip-path="url(#terminal-3305119844-line-163)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="3997.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-163)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="4021.6" textLength="207.4" clip-path="url(#terminal-3305119844-line-164)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="4021.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-164)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4046" textLength="12.2" clip-path="url(#terminal-3305119844-line-165)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4070.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-166)">
+</text><text class="terminal-3305119844-r1" x="0" y="4094.8" textLength="219.6" clip-path="url(#terminal-3305119844-line-167)">━━━&#160;references&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="4094.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-167)">
+</text><text class="terminal-3305119844-r2" x="0" y="4119.2" textLength="658.8" clip-path="url(#terminal-3305119844-line-168)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="4119.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-168)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="4143.6" textLength="256.2" clip-path="url(#terminal-3305119844-line-169)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="4143.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-169)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="4168" textLength="475.8" clip-path="url(#terminal-3305119844-line-170)">Path:&#160;/root/workspace/skills/references</text><text class="terminal-3305119844-r1" x="1464" y="4168" textLength="12.2" clip-path="url(#terminal-3305119844-line-170)">
+</text><text class="terminal-3305119844-r2" x="0" y="4192.4" textLength="658.8" clip-path="url(#terminal-3305119844-line-171)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="4192.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-171)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4216.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-172)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="4241.2" textLength="317.2" clip-path="url(#terminal-3305119844-line-173)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="4241.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-173)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4265.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-174)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="4290" textLength="183" clip-path="url(#terminal-3305119844-line-175)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="4290" textLength="12.2" clip-path="url(#terminal-3305119844-line-175)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="4314.4" textLength="207.4" clip-path="url(#terminal-3305119844-line-176)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="4314.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-176)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4338.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-177)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4363.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-178)">
+</text><text class="terminal-3305119844-r1" x="0" y="4387.6" textLength="305" clip-path="url(#terminal-3305119844-line-179)">━━━&#160;soulvault-publish&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="4387.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-179)">
+</text><text class="terminal-3305119844-r2" x="0" y="4412" textLength="658.8" clip-path="url(#terminal-3305119844-line-180)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="4412" textLength="12.2" clip-path="url(#terminal-3305119844-line-180)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="4436.4" textLength="256.2" clip-path="url(#terminal-3305119844-line-181)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="4436.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-181)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="4460.8" textLength="561.2" clip-path="url(#terminal-3305119844-line-182)">Path:&#160;/root/workspace/skills/soulvault-publish</text><text class="terminal-3305119844-r1" x="1464" y="4460.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-182)">
+</text><text class="terminal-3305119844-r2" x="0" y="4485.2" textLength="658.8" clip-path="url(#terminal-3305119844-line-183)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="4485.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-183)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4509.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-184)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="4534" textLength="317.2" clip-path="url(#terminal-3305119844-line-185)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="4534" textLength="12.2" clip-path="url(#terminal-3305119844-line-185)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4558.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-186)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="4582.8" textLength="183" clip-path="url(#terminal-3305119844-line-187)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="4582.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-187)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="4607.2" textLength="207.4" clip-path="url(#terminal-3305119844-line-188)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="4607.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-188)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4631.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-189)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4656" textLength="12.2" clip-path="url(#terminal-3305119844-line-190)">
+</text><text class="terminal-3305119844-r1" x="0" y="4680.4" textLength="207.4" clip-path="url(#terminal-3305119844-line-191)">━━━&#160;x-twitter&#160;━━━</text><text class="terminal-3305119844-r1" x="1464" y="4680.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-191)">
+</text><text class="terminal-3305119844-r2" x="0" y="4704.8" textLength="658.8" clip-path="url(#terminal-3305119844-line-192)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="4704.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-192)">
+</text><text class="terminal-3305119844-r3" x="24.4" y="4729.2" textLength="256.2" clip-path="url(#terminal-3305119844-line-193)">🔬&#160;Skill&#160;Security&#160;Scan</text><text class="terminal-3305119844-r1" x="1464" y="4729.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-193)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="4753.6" textLength="463.6" clip-path="url(#terminal-3305119844-line-194)">Path:&#160;/root/workspace/skills/x-twitter</text><text class="terminal-3305119844-r1" x="1464" y="4753.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-194)">
+</text><text class="terminal-3305119844-r2" x="0" y="4778" textLength="658.8" clip-path="url(#terminal-3305119844-line-195)">══════════════════════════════════════════════════════</text><text class="terminal-3305119844-r1" x="1464" y="4778" textLength="12.2" clip-path="url(#terminal-3305119844-line-195)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4802.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-196)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="4826.8" textLength="317.2" clip-path="url(#terminal-3305119844-line-197)">✅&#160;No&#160;security&#160;issues&#160;found</text><text class="terminal-3305119844-r1" x="1464" y="4826.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-197)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4851.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-198)">
+</text><text class="terminal-3305119844-r5" x="24.4" y="4875.6" textLength="183" clip-path="url(#terminal-3305119844-line-199)">Verdict:&#160;SAFE&#160;✅</text><text class="terminal-3305119844-r1" x="1464" y="4875.6" textLength="12.2" clip-path="url(#terminal-3305119844-line-199)">
+</text><text class="terminal-3305119844-r4" x="24.4" y="4900" textLength="207.4" clip-path="url(#terminal-3305119844-line-200)">Findings:&#160;0&#160;total</text><text class="terminal-3305119844-r1" x="1464" y="4900" textLength="12.2" clip-path="url(#terminal-3305119844-line-200)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4924.4" textLength="12.2" clip-path="url(#terminal-3305119844-line-201)">
+</text><text class="terminal-3305119844-r1" x="1464" y="4948.8" textLength="12.2" clip-path="url(#terminal-3305119844-line-202)">
+</text><text class="terminal-3305119844-r1" x="0" y="4973.2" textLength="231.8" clip-path="url(#terminal-3305119844-line-203)">✅&#160;Scanned&#160;15&#160;skills</text><text class="terminal-3305119844-r1" x="1464" y="4973.2" textLength="12.2" clip-path="url(#terminal-3305119844-line-203)">
+</text>
+    </g>
+    </g>
+</svg>

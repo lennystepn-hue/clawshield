@@ -1,246 +1,358 @@
-# 🛡️ ClawShield
+<p align="center">
+  <img src="assets/scan.svg" alt="ClawShield Security Scan" width="800">
+</p>
 
-**Security Layer for AI Agents.**
+<h1 align="center">ClawShield 🛡️</h1>
 
-One binary. Zero config. Your AI agent keeps root access — ClawShield keeps everything else locked down.
+<p align="center">
+  <strong>Security Layer for AI Agents — One binary. Zero config. 50 checks.</strong>
+</p>
 
-```bash
-curl -sL https://clawshield.io/install | bash
-clawshield scan
-```
+<p align="center">
+  <a href="#-quick-start"><img src="https://img.shields.io/badge/install-30_seconds-00ADD8?style=for-the-badge" alt="Install"></a>
+  <img src="https://img.shields.io/badge/Go-1.22+-00ADD8?style=for-the-badge&logo=go" alt="Go">
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/Checks-50+-green?style=for-the-badge" alt="Checks">
+  <img src="https://img.shields.io/badge/Platforms-Linux%20|%20macOS%20|%20Windows-blue?style=for-the-badge" alt="Platforms">
+</p>
 
 ---
 
 ## The Problem
 
-AI agents (OpenClaw, Claude Code, etc.) run as **root** on servers. They have access to everything: files, network, credentials, system configs. One malicious skill or misconfiguration and your entire system is compromised.
+AI agents run with **powerful permissions** — root access, API keys, network access, tool execution. A misconfigured server or a malicious skill can compromise everything.
 
-- **341 malicious skills** discovered on ClawHub
-- Most users have **zero security hardening**
-- Agents run 24/7 with **unrestricted root access**
-- No monitoring, no audit trail, no kill switch
-
-**ClawShield fixes this.**
+**ClawShield** scans your system in seconds and tells you exactly what's wrong and how to fix it.
 
 ---
 
-## What It Does
+## ⚡ Quick Start
 
-### 🔍 Security Scanner (`clawshield scan`)
-
-Full security audit in seconds. Checks:
-
-| Category | Checks |
-|----------|--------|
-| **Network** | Firewall status, exposed ports, database ports, Docker port leaks, Tailscale |
-| **Access** | SSH config (password auth, root login, port), Fail2Ban, brute force protection |
-| **System** | Kernel version, automatic updates, pending patches |
-| **Files** | Config permissions, .env files, SSH keys, /etc/shadow |
-| **Agent** | OpenClaw process, API keys in environment, secrets exposure |
-| **Docker** | Containers bypassing firewall, exposed services |
-
-Outputs a **Security Score** (A+ to F) with actionable fix commands.
-
-```
-══════════════════════════════════════════════════════
-  Security Score: B 71/100
-  ✅ 8 passed  ⚠️  4 warnings  ❌ 2 failed
-══════════════════════════════════════════════════════
-```
-
-### 🔒 Auto-Hardener (`clawshield harden`)
-
-One command to fix everything:
-
-- **`--auto`** — Applies all low-risk fixes automatically
-- **Interactive mode** — Walks you through each fix with risk level
-
-Fixes include:
-- Enable/configure UFW firewall
-- Disable SSH password authentication
-- Install & configure Fail2Ban
-- Enable unattended security updates
-- Fix file permissions on sensitive configs
-- Set SSH idle timeout
-- Restrict root login to key-only
-- Secure Docker daemon (prevent UFW bypass)
-
-### 👁️ Live Monitor (`clawshield monitor`)
-
-Real-time security monitoring daemon:
-
-- 🚨 Failed login attempts
-- 🔑 SSH logins
-- 🚫 Fail2Ban bans
-- 📡 New listening ports
-- 💀 Suspicious processes (crypto miners, reverse shells, data exfiltration)
-
-```
-  19:42:03 ALERT    🚨 Failed login attempt: root from 45.33.12.8
-  19:42:15 BLOCK    🚫 IP banned by fail2ban: 45.33.12.8
-  19:43:01 INFO     🔑 SSH login: publickey for root from 100.76.32.47
-```
-
-### 🔬 Skill Scanner (`clawshield skill-scan <path>`)
-
-Static analysis for OpenClaw/ClawHub skills before installation. Detects:
-
-| Severity | Patterns |
-|----------|----------|
-| 🚨 **Critical** | Reverse shells, crypto miners, data exfiltration, remote code execution, SUID exploits, disk destruction |
-| ❌ **High** | Credential theft, base64 obfuscation, firewall tampering, SSH key access, world-writable permissions |
-| ⚠️ **Medium** | Crontab modification, systemd persistence, shell profile changes, direct IP URLs |
-| 💡 **Low** | Binding to 0.0.0.0, broad network access |
-
-**40+ detection patterns.** Verdicts: `SAFE ✅` / `REVIEW 🔍` / `SUSPICIOUS ⚠️` / `DANGEROUS ❌`
-
-```
-  🚨 CRITICAL (2)
-    install.sh:14 — Reverse shell pattern detected
-    setup.py:89 — Data exfiltration: sending sensitive files to remote server
-
-  ⛔ DO NOT INSTALL THIS SKILL — critical security risks detected
-```
-
----
-
-## Installation
-
-### One-liner (Linux/macOS)
 ```bash
-curl -sL https://clawshield.io/install | bash
+# Option 1: Install via OpenClaw Skill (recommended)
+clawhub install clawshield
+
+# Option 2: Install standalone (Linux/macOS)
+curl -fsSL https://raw.githubusercontent.com/lennystepn-hue/clawshield/main/scripts/install.sh | bash
+
+# Run your first scan
+clawshield scan
+```
+
+That's it. **Full security report in under 5 seconds.**
+
+---
+
+## 🔍 Security Scanner — 50 Checks
+
+ClawShield runs **50 automated security checks** across 5 categories:
+
+### Network (7 checks)
+| Check | What it does |
+|:------|:-------------|
+| UFW Firewall | Verifies firewall is active with rules configured |
+| Open Ports | Detects dangerous ports (MySQL, Redis, MongoDB, etc.) |
+| IPv6 | Flags unnecessary IPv6 attack surface |
+| DNS Configuration | Validates nameserver configuration |
+| Binding Audit | Finds internal services bound to 0.0.0.0 |
+| TLS Certificate Expiry | Warns about certificates expiring within 30 days |
+| Tailscale | Checks VPN connectivity status |
+
+### Access (11 checks)
+| Check | What it does |
+|:------|:-------------|
+| SSH Root Login | Detects unrestricted root access |
+| SSH Password Auth | Flags password-based login (should be key-only) |
+| Fail2Ban | Verifies brute-force protection is active |
+| SSH Port | Checks for default port with no protection |
+| SSH Authorized Keys | Validates key file permissions |
+| Login History | Flags password-based logins (key-based = OK) |
+| Password Policy | Checks PAM complexity requirements |
+| Inactive Users | Finds accounts inactive for 90+ days |
+| UID Zero | Detects non-root accounts with UID 0 |
+| Empty Passwords | Finds accounts without passwords |
+| SSH Idle Timeout | Checks for session timeout configuration |
+
+### System (13 checks)
+| Check | What it does |
+|:------|:-------------|
+| Automatic Updates | Verifies unattended-upgrades is active |
+| Kernel Version | Detects pending kernel updates |
+| Disk Usage | Warns at 75%+, fails at 90%+ |
+| Swap Usage | Monitors swap pressure |
+| RAM Usage | Flags high memory consumption |
+| CPU Load | Detects overloaded systems |
+| Zombie Processes | Finds defunct processes |
+| NTP Sync | Verifies system clock synchronization |
+| AppArmor | Checks mandatory access control |
+| Pending Updates | Counts outstanding package updates |
+| Open FD Limit | Validates file descriptor limits |
+| Core Dumps | Ensures core dumps don't leak to disk |
+| Secure Boot | Reports Secure Boot status |
+
+### Files (10 checks)
+| Check | What it does |
+|:------|:-------------|
+| /etc/shadow Perms | Validates password file permissions |
+| /tmp Sticky Bit | Ensures shared temp directory security |
+| SUID Binaries | Detects unexpected setuid programs |
+| World-Writable Dirs | Finds insecure directory permissions |
+| Crontab Audit | Scans for suspicious cron patterns |
+| Unowned Files | Finds files without valid owners |
+| Large Files in /tmp | Detects potential data staging |
+| Log Rotation | Verifies logrotate is configured |
+| Backup Tools | Checks for backup infrastructure |
+| API Keys in Files | Scans workspace for leaked credentials |
+
+### Agent Security (9 checks)
+| Check | What it does |
+|:------|:-------------|
+| Workspace Perms | Validates AI workspace permissions |
+| .env Exposure | Finds exposed environment files |
+| Docker Socket | Checks Docker socket permissions |
+| OpenClaw Config | Validates config file permissions |
+| API Keys in Env | Scans environment for leaked secrets |
+| Skill Integrity | Checks for unsigned/modified skills |
+| OpenClaw Version | Reports current agent version |
+| Memory Limit | Verifies cgroup memory constraints |
+| Privileged Containers | Detects Docker containers running privileged |
+
+---
+
+## 📊 Security Score
+
+ClawShield grades your system from **A+** to **F**:
+
+| Grade | Score | Meaning |
+|:------|:------|:--------|
+| **A+** | 95-100 | Excellent — production ready |
+| **A** | 90-94 | Great — minor improvements possible |
+| **B** | 80-89 | Good — some issues to address |
+| **C** | 70-79 | Fair — several vulnerabilities |
+| **D** | 60-69 | Poor — significant risks |
+| **F** | 0-59 | Critical — immediate action required |
+
+---
+
+## 🔧 Commands
+
+### `clawshield scan`
+
+Run a full security audit with all 50 checks.
+
+```
+$ clawshield scan
+
+    ________               _____ __    _      __    __
+   / ____/ /___ __      __/ ___// /_  (_)__  / /___/ /
+  / /   / / __ `/ | /| / /\__ \/ __ \/ / _ \/ / __  /
+ / /___/ / /_/ /| |/ |/ /___/ / / / / /  __/ / /_/ /
+ \____/_/\__,_/ |__/|__//____/_/ /_/_/\___/_/\__,_/
+                                                v0.1.0
+  🛡️  Security Layer for AI Agents
+
+  🔍 Running security scan...
+  ══════════════════════════════════════════════════════
+    Security Score: A 93/100
+    ✅ 43 passed  ⚠️  7 warnings  ❌ 0 failed
+  ══════════════════════════════════════════════════════
+```
+
+### `clawshield harden`
+
+Interactive hardening — walks you through every fixable issue with **detailed explanations**.
+
+<p align="center">
+  <img src="assets/harden.svg" alt="ClawShield Interactive Hardener" width="700">
+</p>
+
+Each fix shows:
+- **Problem** — What's wrong and why it matters
+- **Fix** — Exactly what will be changed
+- **Risk** — What could go wrong (honest assessment)
+
+Already-hardened checks are automatically skipped.
+
+### `clawshield harden --auto`
+
+Auto-fix all **low-risk** issues without prompting. Medium and high-risk fixes require interactive confirmation.
+
+```bash
+$ clawshield harden --auto
+
+🔒 ClawShield Auto-Hardening
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📡 Scanning system first...
+  ✅ No low-risk fixes needed — system looks good!
+```
+
+### `clawshield skill-scan [path]`
+
+Scan skills for **malicious code patterns** — reverse shells, data exfiltration, credential theft, privilege escalation, and 40+ more threat patterns.
+
+<p align="center">
+  <img src="assets/skill-scan.svg" alt="ClawShield Skill Scanner" width="700">
+</p>
+
+```bash
+# Scan a single skill
+clawshield skill-scan ./skills/some-community-skill
+
+# Scan ALL installed skills (auto-detect)
+clawshield skill-scan
+```
+
+### `clawshield monitor`
+
+**Live security monitoring** — watches auth logs, network connections, processes, and more in real-time.
+
+```bash
+$ clawshield monitor
+
+👁️  Live Security Monitor
+  Watching: auth.log, connections, processes...
+  [17:01:23] ⚠️  Failed SSH login from 92.118.39.87 (user: admin)
+  [17:01:24] ✅ SSH key login from 100.79.101.58 (user: root)
+  [17:01:30] ⚠️  New listening port: 8080 (pid: 12345)
+```
+
+---
+
+## 🤖 Built for OpenClaw
+
+ClawShield is designed as the **security layer** for [OpenClaw](https://github.com/openclaw/openclaw) — the open platform for AI agents.
+
+```bash
+# Install as OpenClaw skill
+clawhub install clawshield
+
+# Your agent can now run security scans
+clawshield scan
+```
+
+**Why agents need security:**
+- Skills from the community may contain **malicious code**
+- Agents run with **elevated permissions** (often root)
+- API keys and secrets are **everywhere** in agent configs
+- Docker containers can **bypass your firewall**
+- A compromised agent has access to **everything**
+
+ClawShield monitors all of this. Automatically. Continuously.
+
+---
+
+## 🏗️ Architecture
+
+```
+clawshield/
+├── cmd/clawshield/main.go      # CLI entry point
+├── internal/
+│   ├── scanner/
+│   │   ├── scanner.go          # 50 security checks
+│   │   └── report.go           # Terminal report formatting
+│   ├── hardener/
+│   │   └── hardener.go         # Scan-driven interactive hardener
+│   ├── monitor/
+│   │   └── monitor.go          # Live security monitoring
+│   └── skills/
+│       └── scanner.go          # Skill malicious code detection
+├── scripts/
+│   └── install.sh              # One-line installer
+└── dist/                       # Cross-compiled binaries
+    ├── clawshield-linux-amd64
+    ├── clawshield-macos-amd64
+    ├── clawshield-macos-arm64
+    └── clawshield-windows-amd64.exe
+```
+
+**Single binary. No dependencies. No config files. No daemon.**
+
+---
+
+## 📦 Installation
+
+### Linux / macOS (one-liner)
+```bash
+curl -fsSL https://raw.githubusercontent.com/lennystepn-hue/clawshield/main/scripts/install.sh | bash
+```
+
+### OpenClaw Skill
+```bash
+clawhub install clawshield
 ```
 
 ### Manual Download
+Download the binary for your platform from [Releases](https://github.com/lennystepn-hue/clawshield/releases):
+
+| Platform | Binary |
+|:---------|:-------|
+| Linux x86_64 | `clawshield-linux-amd64` |
+| macOS Intel | `clawshield-macos-amd64` |
+| macOS Apple Silicon | `clawshield-macos-arm64` |
+| Windows | `clawshield-windows-amd64.exe` |
+
 ```bash
-# Linux
-wget https://github.com/clawshield/clawshield/releases/latest/download/clawshield-linux-amd64
-chmod +x clawshield-linux-amd64
-sudo mv clawshield-linux-amd64 /usr/local/bin/clawshield
-
-# macOS (Apple Silicon)
-wget https://github.com/clawshield/clawshield/releases/latest/download/clawshield-macos-arm64
-chmod +x clawshield-macos-arm64
-sudo mv clawshield-macos-arm64 /usr/local/bin/clawshield
-
-# Windows
-# Download clawshield-windows-amd64.exe from releases
+chmod +x clawshield-*
+sudo mv clawshield-* /usr/local/bin/clawshield
 ```
 
-### From Source
+### Build from Source
 ```bash
-git clone https://github.com/clawshield/clawshield
+git clone https://github.com/lennystepn-hue/clawshield.git
 cd clawshield
 go build -o clawshield ./cmd/clawshield/
+sudo mv clawshield /usr/local/bin/
 ```
 
 ---
 
-## Usage
+## 🆚 Why ClawShield?
+
+| | ClawShield | Manual Auditing | Other Tools |
+|:--|:-----------|:----------------|:------------|
+| Setup time | **30 seconds** | Hours | Minutes-Hours |
+| Checks performed | **50+ automated** | Whatever you remember | Varies |
+| Agent-aware | **Yes** — skills, configs, Docker | No | No |
+| Fix guidance | **Interactive with risk levels** | Google it | Some |
+| Skill vetting | **40+ threat patterns** | Read every file yourself | No |
+| Single binary | **Yes, ~3MB** | N/A | Usually complex |
+| Price | **Free & open source** | Your time | $$$+ |
+
+---
+
+## 🗺️ Roadmap
+
+- [x] **v0.1** — Core Scanner & Hardener (50 checks)
+- [x] **v0.3** — Agent Behavior Analysis, Live Monitor, Skill Scanner
+- [ ] **v0.4** — Multi-host dashboard, threat intelligence feed
+- [ ] **v1.0** — SaaS dashboard, team management, compliance reports
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ```bash
-# Full security audit
-clawshield scan
+# Run tests
+go test ./...
 
-# Quick score only
-clawshield status
+# Build
+go build -o clawshield ./cmd/clawshield/
 
-# Auto-fix low-risk issues
-clawshield harden --auto
-
-# Interactive hardening (choose what to fix)
-clawshield harden
-
-# Scan a skill before installing
-clawshield skill-scan ./path/to/skill
-clawshield skill-scan ~/.openclaw/skills/some-skill
-
-# Start live monitoring
-clawshield monitor
+# Cross-compile
+GOOS=linux GOARCH=amd64 go build -o dist/clawshield-linux-amd64 ./cmd/clawshield/
 ```
 
 ---
 
-## Platform Support
+## 📄 License
 
-| Platform | Scanner | Hardener | Monitor | Skill Scan |
-|----------|:-------:|:--------:|:-------:|:----------:|
-| Linux (Ubuntu/Debian) | ✅ Full | ✅ Full | ✅ Full | ✅ Full |
-| Linux (RHEL/Fedora) | ✅ Most | 🔶 Partial | ✅ Full | ✅ Full |
-| macOS | ✅ Core | ✅ Core | 🔶 Basic | ✅ Full |
-| Windows | 🔶 Basic | 🔶 Basic | 🔶 Basic | ✅ Full |
+MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
-## Architecture
-
-```
-clawshield (single Go binary, ~3MB)
-├── cmd/clawshield/     → CLI entry point
-├── internal/
-│   ├── scanner/        → Security audit engine
-│   ├── hardener/       → System hardening actions
-│   ├── monitor/        → Live security monitoring
-│   └── skills/         → Skill static analysis (40+ patterns)
-├── pkg/
-│   ├── system/         → OS-level utilities
-│   ├── network/        → Port/connection checks
-│   └── process/        → Process monitoring
-├── configs/            → Default security configs
-└── dist/               → Cross-compiled binaries
-```
-
-**Zero dependencies.** Single binary. Works offline. No API keys needed.
-
----
-
-## Roadmap
-
-### v0.2 — Dashboard & Alerts
-- [ ] Web dashboard (localhost) with live security status
-- [ ] Telegram/Email alerts on critical events
-- [ ] Scheduled scans via cron
-- [ ] JSON/API output for integration
-
-### v0.3 — Agent Behavior Analysis
-- [ ] Track what the AI agent accesses (files, URLs, APIs)
-- [ ] Anomaly detection (agent doing something unusual)
-- [ ] Audit trail / compliance log
-- [ ] Rate limiting for agent actions
-
-### v0.4 — Network & Cloud
-- [ ] Multi-host dashboard (manage fleet of servers)
-- [ ] ClawHub integration (auto-scan before skill install)
-- [ ] Threat intelligence feed (known malicious patterns)
-- [ ] API for third-party integrations
-
-### v1.0 — Production
-- [ ] SaaS dashboard (clawshield.io)
-- [ ] Team management
-- [ ] Compliance reports (SOC2, GDPR)
-- [ ] Enterprise features
-
----
-
-## Tech Stack
-
-- **Language:** Go 1.22+
-- **Binary Size:** ~3MB per platform
-- **Platforms:** Linux, macOS, Windows (amd64 + arm64)
-- **Dependencies:** None (pure Go, no CGo)
-
----
-
-## Contributing
-
-Coming soon. For now, report issues and feature requests.
-
----
-
-## License
-
-TBD
-
----
-
-**Built by [Volt ⚡](https://github.com/clawshield) — Security for the AI Agent era.**
+<p align="center">
+  Built with 🛡️ by the <a href="https://github.com/openclaw/openclaw">OpenClaw</a> community
+</p>
