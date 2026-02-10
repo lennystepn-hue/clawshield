@@ -18,28 +18,63 @@
 
 ---
 
-## The Problem
+## What is ClawShield?
 
-AI agents run with **powerful permissions** — root access, API keys, network access, tool execution. A misconfigured server or a malicious skill can compromise everything.
+ClawShield is a **security scanner for servers and workstations** — especially those running AI agents. It's a single executable file (~2MB) that checks your system for security issues and tells you exactly what's wrong and how to fix it.
 
-**ClawShield** scans your system in seconds and tells you exactly what's wrong and how to fix it.
+**No configuration. No accounts. No internet required.** Download, run, done.
+
+### Who is this for?
+
+- **AI agent operators** running [OpenClaw](https://github.com/openclaw/openclaw), LangChain, AutoGPT, or similar
+- **Developers & sysadmins** who want a quick security audit
+- **Anyone** running a Linux server, Mac, or Windows machine who wants to know if it's secure
+
+### The Problem
+
+AI agents run with **powerful permissions** — root access, API keys, network access, tool execution. A misconfigured server or a malicious community plugin can compromise everything. ClawShield catches these issues in seconds.
 
 ---
 
 ## ⚡ Quick Start
 
+### Option 1: One-line install (Linux / macOS)
 ```bash
-# Option 1: Install via OpenClaw Skill (recommended)
-clawhub install clawshield
-
-# Option 2: Install standalone (Linux/macOS)
 curl -fsSL https://raw.githubusercontent.com/lennystepn-hue/clawshield/main/scripts/install.sh | bash
+```
+This downloads the right binary for your OS and puts it in `/usr/local/bin/`.
 
-# Run your first scan
-clawshield scan
+### Option 2: Manual download
+Go to [**Releases**](https://github.com/lennystepn-hue/clawshield/releases), download the binary for your platform, and make it executable:
+```bash
+chmod +x clawshield-*
+sudo mv clawshield-* /usr/local/bin/clawshield
+```
+
+### Option 3: OpenClaw users
+```bash
+clawhub install clawshield
+```
+
+### Option 4: Build from source (requires Go 1.22+)
+```bash
+git clone https://github.com/lennystepn-hue/clawshield.git
+cd clawshield
+go build -o clawshield ./cmd/clawshield/
+sudo mv clawshield /usr/local/bin/
+```
+
+### Run your first scan
+```bash
+clawshield scan        # basic scan (works without root)
+sudo clawshield scan   # full scan (recommended — some checks need root)
 ```
 
 That's it. **Full security report in under 5 seconds.**
+
+### ⚠️ Permissions
+
+Most checks work **without root**. But for the complete picture (reading auth logs, checking shadow file permissions, etc.), run with `sudo`. ClawShield never modifies your system during a scan — it only reads.
 
 ---
 
@@ -337,40 +372,17 @@ clawshield/
 
 ---
 
-## 📦 Installation
+## 📦 Downloads
 
-### Linux / macOS (one-liner)
-```bash
-curl -fsSL https://raw.githubusercontent.com/lennystepn-hue/clawshield/main/scripts/install.sh | bash
-```
+| Platform | Binary | Architecture |
+|:---------|:-------|:-------------|
+| **Linux** | [`clawshield-linux-amd64`](https://github.com/lennystepn-hue/clawshield/releases/latest) | x86_64 (most servers) |
+| **Linux ARM** | [`clawshield-linux-arm64`](https://github.com/lennystepn-hue/clawshield/releases/latest) | ARM64 (Raspberry Pi, etc.) |
+| **macOS Intel** | [`clawshield-macos-amd64`](https://github.com/lennystepn-hue/clawshield/releases/latest) | Intel Macs |
+| **macOS Apple Silicon** | [`clawshield-macos-arm64`](https://github.com/lennystepn-hue/clawshield/releases/latest) | M1/M2/M3/M4 Macs |
+| **Windows** | [`clawshield-windows-amd64.exe`](https://github.com/lennystepn-hue/clawshield/releases/latest) | 64-bit Windows |
 
-### OpenClaw Skill
-```bash
-clawhub install clawshield
-```
-
-### Manual Download
-Download the binary for your platform from [Releases](https://github.com/lennystepn-hue/clawshield/releases):
-
-| Platform | Binary |
-|:---------|:-------|
-| Linux x86_64 | `clawshield-linux-amd64` |
-| macOS Intel | `clawshield-macos-amd64` |
-| macOS Apple Silicon | `clawshield-macos-arm64` |
-| Windows | `clawshield-windows-amd64.exe` |
-
-```bash
-chmod +x clawshield-*
-sudo mv clawshield-* /usr/local/bin/clawshield
-```
-
-### Build from Source
-```bash
-git clone https://github.com/lennystepn-hue/clawshield.git
-cd clawshield
-go build -o clawshield ./cmd/clawshield/
-sudo mv clawshield /usr/local/bin/
-```
+All binaries are **~2MB**, statically compiled, **zero dependencies**.
 
 ---
 
